@@ -38,6 +38,8 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.5'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	// 페이징처리 핼퍼 사용 계획이 있다면 주석을 풀고 사용해 주세요
+	//implementation 'com.github.pagehelper:pagehelper-spring-boot-starter:2.1.0'
 }
 
 tasks.named('test') {
