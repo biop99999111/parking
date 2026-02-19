@@ -2,6 +2,8 @@ package com.boot.json.model;
 
 import java.time.LocalDateTime;
 
+import lombok.Data;
+
 public class Car {
 
 	private String carNo;           // 차량 번호 (PK)
