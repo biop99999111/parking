@@ -12,5 +12,5 @@ public class CarController {
 	@Autowired
 	private CarMapper mapper;
 	
-
+	int bb = 1;
 }
