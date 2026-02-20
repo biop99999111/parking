@@ -11,7 +11,7 @@ public class Car {
     private LocalDateTime entryTime; // 입차 시간
     private LocalDateTime exitTime;  // 출차 시간
     private int fee;                // 계산된 요금
-    private int coupon;		// 할인 쿠폰 그냥 car_info 테이블에서 coupon 주기를 하면 1로 바뀌도록
-    private Long storeId;           // 할인을 제공한 매장 ID
+    private int coupon_using;		// 쿠폰 사용했는지 안했는지 사용했으면 1 안했으면 안바꿔도됨
+    private String storeName;
    
 }
