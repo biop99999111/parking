@@ -5,10 +5,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.boot.json.model.Car;
 import com.boot.json.model.CarMapper;
+import com.boot.json.service.CarService;
+
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 
@@ -17,7 +20,9 @@ public class CarController {
 
 	@Autowired
 	private CarMapper mapper;
-	
+    
+	@Autowired
+	private CarService service;
 	
 	@RequestMapping("/")
 	public String main() {
@@ -26,30 +31,37 @@ public class CarController {
 	}
 	
     // 입차 요청 처리
-    @PostMapping("/parking/enter")
-    public String enterParking(Car car) {
-        // 입차 시간 자동 설정
+    @PostMapping("/enter")
+    public String enterParking(Car car, Model model) {
     	
-        this.mapper.setParkCar(car);  // 현재 시간을 입차 시간으로 설정
-
         // DB에 저장
+        this.mapper.setParkCar(car);  // DB에 차량 정보 저장
+        
+        // 차량 번호 중복 확인
+        Car existingCar = this.mapper.selectCar(car.getCarNo());  // DB에서 해당 차량 번호 조회
 
-        return "차량 번호 " + car.getCarNo() + "의 입차가 완료되었습니다.";
+        if (existingCar != null) {
+            // 이미 입차된 차량일 경우
+            model.addAttribute("message", "차량 번호 " + car.getCarNo() + "는 이미 입차된 차량입니다.");
+            return "main";  // 메시지와 함께 메인 페이지로 반환
+        }
+        
+
+        // 모델에 알림 메시지 추가
+        model.addAttribute("message", "차량 번호 " + car.getCarNo() + "의 입차가 완료되었습니다.");
+
+        return "main";  // 메인 페이지로 이동 (여기서는 main.html을 반환)
     }
-
+    
     // 출차 요청 처리
-    @PostMapping("/parking/exit")
+    @PostMapping("/exit")
     public String exitParking(Car car) {
 
 
         
-        Car car_info = this.mapper.selectCar(car.getCarNo());
+        Car car_final_info = service.calculateParkingFee(car);
         
-        LocalDateTime enter_time = car_info.getEntryTime();
-        
-        car.getExitTime();
-        
-        this.mapper.setExitCar(car.getCarNo());  // 출차 메서드
+        this.mapper.setExitCar(car_final_info);  // 출차 메서드
 
         // DB에 저장
 

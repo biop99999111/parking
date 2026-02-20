@@ -12,7 +12,7 @@ public interface CarMapper {
 
 	Car selectCar(String carNo);
 	
-	void setExitCar(String string);
+	void setExitCar(Car car_final_info);
 
 	void setParkCar(Car car);
 

@@ -4,12 +4,22 @@
 
     <!-- 입차 처리 SQL 쿼리 -->
     <insert id="setParkCar" parameterType="car">
-        INSERT INTO parking (carNo, entryTime)
+        INSERT INTO car (carNo, entryTime)
         VALUES (#{carNo}, #{entryTime})
     </insert>
     
     <select id="selectCar" parameterType="String" resultType="car">
-    	select * from parking
+    	select * from car
     </select>
-
+	
+	<update id="setExitCar" parameterType="car">
+	    UPDATE cars
+	    SET 
+	        exitTime = #{exitTime},
+	        fee = #{fee},
+	        coupon = #{coupon},
+	        storeName = #{storeName}
+	    WHERE carNo = #{carNo};
+	</update>
+	
 </mapper>

@@ -11,7 +11,18 @@ public class Car {
     private LocalDateTime entryTime; // 입차 시간
     private LocalDateTime exitTime;  // 출차 시간
     private int fee;                // 계산된 요금
-    private int coupon_using;		// 쿠폰 사용했는지 안했는지 사용했으면 1 안했으면 안바꿔도됨
+    private int coupon;		// 쿠폰 금액
     private String storeName;
    
 }
+
+/*
+    CREATE TABLE Car (
+    carNo VARCHAR(20) PRIMARY KEY,            -- 차량 번호 (PK)
+    entryTime TIMESTAMP NOT NULL,             -- 입차 시간 (NOT NULL)
+    exitTime TIMESTAMP DEFAULT NULL,          -- 출차 시간 (NULL 가능)
+    fee INT DEFAULT NULL,                     -- 요금 (NULL 가능)
+    coupon INT DEFAULT 0,              		  -- 쿠폰 사용 여부 (기본값 0)
+    storeName VARCHAR(255) DEFAULT NULL       -- 매장 이름 (NULL 가능)
+);
+*/

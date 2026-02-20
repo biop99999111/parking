@@ -105,7 +105,7 @@
       <h1>주차 관리</h1>
 
       <!-- 입차 폼 -->
-      <form action="/parking/enter">
+      <form action="/enter">
         <div class="input-group">
           <input type="hidden" name="entryTime" th:value="${#dates.format(T(java.time.LocalDateTime).now(), 'yyyy-MM-dd HH:mm:ss')}">
           <input type="hidden" id="carPlate" name="carNo">
@@ -116,7 +116,7 @@
       <div class="spacer"></div>
 
       <!-- 출차 폼 -->
-      <form action="/parking/exit">
+      <form action="/exit">
         <div class="input-group">
           <input type="hidden" name="exitTime" th:value="${#dates.format(T(java.time.LocalDateTime).now(), 'yyyy-MM-dd HH:mm:ss')}">
           <input
