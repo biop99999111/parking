@@ -4,6 +4,25 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.boot.json.model.storeMapper">
+ 
+  <select id="login"  parameterType="store" resultType="store">
+     select * from store where store_name = #{storeName}
+     and password = #{password}
+  </select>
+  
+  <select id="getcouponCount" resultType="int">
+       select coupon_count
+       from store where store_id =#{storeId}
+  </select>
+  
+  <update id="decreaseCoupon">
+       update store 
+       set coupon_Count = coupon_Count -1
+       where store_id =#{storeId)
+  </update>
+  
+  
+ 
 
 
 </mapper>
