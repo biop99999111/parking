@@ -5,10 +5,6 @@
   
 <mapper namespace="com.boot.json.model.storeMapper">
  
-  <select id="login"  parameterType="store" resultType="store">
-     select * from store where store_name = #{storeName}
-     and password = #{password}
-  </select>
   
   <select id="getcouponCount" resultType="int">
        select coupon_count
