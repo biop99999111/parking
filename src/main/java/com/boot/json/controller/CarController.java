@@ -19,7 +19,6 @@ public class CarController {
 	private CarMapper mapper;
 	
 	
-	
 	@RequestMapping("/")
 	public String main() {
 		return "main";
