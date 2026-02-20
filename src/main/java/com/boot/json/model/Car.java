@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import lombok.Data;
 
+@Data
 public class Car {
 
 	private String carNo;           // 차량 번호 (PK)
