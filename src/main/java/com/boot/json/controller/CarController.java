@@ -18,6 +18,8 @@ public class CarController {
 	@Autowired
 	private CarMapper mapper;
 	
+	
+	
 	@RequestMapping("/")
 	public String main() {
 		return "main";
