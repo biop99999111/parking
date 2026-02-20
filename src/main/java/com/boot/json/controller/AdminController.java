@@ -20,7 +20,7 @@ public class AdminController {
         this.adminService = adminService;
     }
 
-    // 관리자 차량 목록 조회
+    // 관리자 차량 목록 조회..
     @GetMapping("/admin/cars")
     public String getCarList(@RequestParam(defaultValue = "") String keyword, Model model) {
         // 차량 목록 조회
