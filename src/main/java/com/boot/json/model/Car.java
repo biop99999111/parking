@@ -13,4 +13,5 @@ public class Car {
     private int fee;                // 계산된 요금
     private int discountMinutes;    // 적용된 할인 시간(분)
     private Long storeId;           // 할인을 제공한 매장 ID
+   
 }
