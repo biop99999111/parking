@@ -11,7 +11,8 @@ public class StoreController {
             @RequestParam String carNo,
             @RequestParam int discountMinutes) {
 
-        storeService.applyStoreDiscount(storeId, carNo, discountMinutes);
-        return ResponseEntity.ok("할인 적용 완료");
+        int remainCoupon = storeService.applyStoreDiscount(storeId, carNo, discountMinutes);
+
+        return ResponseEntity.ok("할인 적용 완료 (남은 쿠폰: " + remainCoupon + "개)");
     }
 }
