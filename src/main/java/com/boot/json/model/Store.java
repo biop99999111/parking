@@ -1,5 +1,8 @@
 package com.boot.json.model;
 
+import lombok.Data;
+
+@Data
 public class Store {
 
 	private Long storeId;           // 매장 고유 번호
