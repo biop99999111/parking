@@ -5,4 +5,9 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface CarMapper {
 
+	void insertEntry(String carNo);
+
+	Car selectCar(String carNo);
+
+
 }
