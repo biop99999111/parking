@@ -15,6 +15,10 @@ public interface CarMapper {
 	void setExitCar(String string);
 
 	void setParkCar(Car car);
+	
+	void updatefee(Car car);
+	
+	void applyCoupon(String carNo);
 
 
 

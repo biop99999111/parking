@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.boot.json.model.Car;
 import com.boot.json.model.CarMapper;
@@ -30,7 +31,11 @@ public class CarService {
         long billableMinutes = Math.max(0, totalMinutes - car.getDiscountMinutes());
         int finalFee = (int) (billableMinutes / 10) * 500;
         
+        
+        
         car.setFee(finalFee);
         return car;
     }
-}
+    
+    }
+

@@ -11,7 +11,7 @@ public class Car {
     private LocalDateTime entryTime; // 입차 시간
     private LocalDateTime exitTime;  // 출차 시간
     private int fee;                // 계산된 요금
-    private int coupon_using;		// 쿠폰 사용했는지 안했는지 사용했으면 1 안했으면 안바꿔도됨
+    private int coupon;		// 쿠폰 금액(예 5000), 안썼으면 0
     private String storeName;
    
 }
