@@ -21,8 +21,4 @@
        where store_id =#{storeId)
   </update>
   
-  
- 
-
-
 </mapper>
