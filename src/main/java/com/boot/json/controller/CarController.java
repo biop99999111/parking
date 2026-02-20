@@ -26,7 +26,7 @@ public class CarController {
 	}
 	
     // 입차 요청 처리
-    @PostMapping("/enter")
+    @PostMapping("/parking/enter")
     public String enterParking(Car car) {
         // 입차 시간 자동 설정
     	
@@ -38,7 +38,7 @@ public class CarController {
     }
 
     // 출차 요청 처리
-    @PostMapping("/exit")
+    @PostMapping("/parking/exit")
     public String exitParking(Car car) {
 
 
