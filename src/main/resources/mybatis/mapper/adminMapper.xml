@@ -4,6 +4,30 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.boot.json.model.adminMapper">
+    <!-- 관리자 로그인 -->
+    <!-- 비밀번호인증 로직은 AdminService.java 에서 처리하도록 함 -->
+    <select id="login" parameterType="com.boot.json.model.Admin1" resultType="com.boot.json.model.Admin1">
+        SELECT admin_id, password, role
+        FROM admin1
+        WHERE admin_id = #{adminId}
+    </select>
 
+    <!-- 관리자 주차리스트 조회 -->
+    <select id="list" parameterType="com.boot.json.model.Page" resultType="com.boot.json.model.Car">
+        SELECT * FROM car
+        LIMIT #{pvo.startRow}, #{pvo.pageSize}
+    </select>
+
+    <!-- 관리자 차량검색 -->
+    <select id="search" parameterType="com.boot.json.model.Page" resultType="com.boot.json.model.Car">
+        SELECT * FROM car
+        WHERE carNo LIKE CONCAT('%', #{pvo.keyword}, '%')
+        LIMIT #{pvo.startRow}, #{pvo.pageSize}
+    </select>
+
+    <!-- 관리자 삭제 -->
+    <delete id="delete" parameterType="int">
+        DELETE FROM car WHERE carNo = #{no}
+    </delete>
 
 </mapper>

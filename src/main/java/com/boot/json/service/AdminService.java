@@ -1,8 +1,18 @@
 package com.boot.json.service;
 
+import java.util.List;
+
+import com.boot.json.model.AdminMapper;
+import com.boot.json.model.Car;
+
 public class AdminService {
 
     private final AdminMapper adminMapper;
+
+	public List<Car> searchCars(String keyword) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 //    // 페이징 처리된 주차 내역 조회
 //    public List<Car> getHistoryList(Criteria cri) {
