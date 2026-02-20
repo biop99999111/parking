@@ -12,14 +12,8 @@
     	select * from car
     </select>
 	
-	<update id="setExitCar" parameterType="car">
-	    UPDATE cars
-	    SET 
-	        exitTime = #{exitTime},
-	        fee = #{fee},
-	        coupon = #{coupon},
-	        storeName = #{storeName}
-	    WHERE carNo = #{carNo};
-	</update>
+	<delete id="setExitCar" parameterType="car">
+	    delete from car where carNo = {carNo}
+	</delete>
 	
 </mapper>

@@ -55,17 +55,21 @@ public class CarController {
     
     // 출차 요청 처리
     @PostMapping("/exit")
-    public String exitParking(Car car) {
+    public String exitParking(Car car , Model model) {
 
 
         
-        Car car_final_info = service.calculateParkingFee(car);
+    	// 요금계산및 만약 할인권받았으면 매장등등의 모든정보
+        Car car_info = service.calculateParkingFee(car);
         
-        this.mapper.setExitCar(car_final_info);  // 출차 메서드
+        this.mapper.setExitCar(car_info.getCarNo());  // 출차 메서드
 
-        // DB에 저장
+        // 2. 모델에 차량 정보와 메시지 추가
+        model.addAttribute("car_info", car_info);  // 차량 정보 (출차 후 계산된 요금 등)
+        model.addAttribute("message", "차량 번호 " + car.getCarNo() + "의 출차가 완료되었습니다.");
 
-        return "차량 번호 " + car.getCarNo() + "의 출차가 완료되었습니다.";
+        // 3. 출차 완료 후 정산 화면으로 이동 (exit.html)
+        return "exit";  // "exit.html" 페이지로 이동
     }
     
 }

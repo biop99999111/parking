@@ -13,11 +13,6 @@ public class CarService {
 	@Autowired
     private CarMapper carMapper;
 
-    // 입차 로직
-    public void registerEntry(String carNo) {
-        carMapper.insertEntry(carNo);
-    }
-
     // 출차 전 요금 계산 로직 (가장 중요)
     public Car calculateParkingFee(Car car) {
     	
@@ -33,6 +28,7 @@ public class CarService {
         int finalFee = (int) (billableMinutes / 10) * 500 - car_info.getCoupon();
         
         car_info.setFee(finalFee);
+
         return car_info;
     }
 }
