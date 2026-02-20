@@ -84,11 +84,6 @@
       	
         <div class="input-group">
           <input type="hidden" name="entryTime" th:value="${#dates.format(T(java.time.LocalDateTime).now(), 'yyyy-MM-dd HH:mm:ss')}">
-          <input
-            type="text"
-            placeholder="입차 차량 번호를 입력하세요"
-            name="carNo" required
-          />
         </div>
         <button type="submit">입차</button>
       </form>
