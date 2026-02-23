@@ -1,24 +1,19 @@
-
 package com.boot.json.controller;
-
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.boot.json.model.Car;
 import com.boot.json.model.CarMapper;
 import com.boot.json.service.CarService;
-
-import org.springframework.web.bind.annotation.*;
-import java.time.LocalDateTime;
+import com.boot.json.model.Car;
 
 @Controller
 public class CarController {
-
+	
 	@Autowired
 	private CarMapper mapper;
     
@@ -52,20 +47,19 @@ public class CarController {
 	}
 	
 	@GetMapping("/exit")
-	public String exitParking(Car car, Model model, RedirectAttributes redirectAttributes) {
-
-	    // 요금계산 및 차량 정보 가져오기
+	public String exitParking(Car car, Model model) {
+	    // 1. 요금 계산 및 차량 정보 가져오기 (Service에서 fee, coupon 등이 계산되어 채워짐)
 	    Car car_info = service.calculateParkingFee(car);
-	    
-	    // 출차 처리 (DB에서 출차 메서드 호출)
+
+	    // 2. 출차 처리 (DB 업데이트)
 	    this.mapper.setExitCar(car_info.getCarNo());
 
-	    // 리다이렉트 시 메시지와 차량 정보를 전달
-	    redirectAttributes.addFlashAttribute("car_info", car_info);  // 차량 정보
-	    redirectAttributes.addFlashAttribute("message", "차량 번호 " + car.getCarNo() + "의 출차가 완료되었습니다.");  // 메시지
-
-	    // 출차 완료 후 리다이렉트하여 정산 화면으로 이동 ("/exitPage")
-	    return "redirect:/";  // 정산 화면을 보여줄 다른 URL로 리다이렉트
+	    // 3. 다시 메인 페이지로 이동하면서 계산된 car_info를 전달
+	    // 이 car_info가 Model에 담겨야 화면에서 모달이 뜹니다.
+	    model.addAttribute("car_info", car_info);
+	    
+	    return "main"; // 메인 HTML 파일명
 	}
     
+	
 }
