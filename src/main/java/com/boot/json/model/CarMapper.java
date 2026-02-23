@@ -5,9 +5,10 @@ package com.boot.json.model;
 
 import org.apache.ibatis.annotations.Mapper;
 
+
 @Mapper
 public interface CarMapper {
-
+	
 	void insertEntry(String carNo);
 
 	Car selectCar(String carNo);
@@ -15,6 +16,9 @@ public interface CarMapper {
 	void setExitCar(String carNo);
 
 	void setParkCar(Car car);
+	
+	Car selectOne(String carNo);
+
 
 
 

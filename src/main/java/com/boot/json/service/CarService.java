@@ -1,13 +1,14 @@
 package com.boot.json.service;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.boot.json.model.Car;
 import com.boot.json.model.CarMapper;
 
+@Service
 public class CarService {
 	
 	@Autowired

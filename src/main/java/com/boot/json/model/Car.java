@@ -2,14 +2,22 @@ package com.boot.json.model;
 
 import java.time.LocalDateTime;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
+
 
 @Data
 public class Car {
 
 	private String carNo;           // 차량 번호 (PK)
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime entryTime; // 입차 시간
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime exitTime;  // 출차 시간
+    
     private int fee;                // 계산된 요금
     private int coupon;		// 쿠폰 금액
     private String storeName;

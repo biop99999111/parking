@@ -100,6 +100,10 @@
         document.getElementById('carPlate').value = plate;
       }
     </script>
+    
+    <script th:if="${message}">
+    alert('[[${message}]]');
+	</script>
   </head>
   <body>
     <div class="container">
@@ -108,7 +112,9 @@
       <!-- 입차 폼 -->
       <form action="/enter">
         <div class="input-group">
-          <input type="hidden" name="entryTime" th:value="${#dates.format(T(java.time.LocalDateTime).now(), 'yyyy-MM-dd HH:mm:ss')}">
+          <input type="hidden" name="entryTime"
+       			th:value="${#temporals.format(T(java.time.LocalDateTime).now(), 'yyyy-MM-dd HH:mm:ss')}">
+       
           <input type="hidden" id="carPlate" name="carNo">
         </div>
         <button type="submit">입차</button>
@@ -119,7 +125,8 @@
       <!-- 출차 폼 -->
       <form action="/exit">
         <div class="input-group">
-          <input type="hidden" name="exitTime" th:value="${#dates.format(T(java.time.LocalDateTime).now(), 'yyyy-MM-dd HH:mm:ss')}">
+          <input type="hidden" name="exitTime"
+      			 th:value="${#temporals.format(T(java.time.LocalDateTime).now(), 'yyyy-MM-dd HH:mm:ss')}">
           <input
             type="text"
             placeholder="출차 차량 번호를 입력하세요"
