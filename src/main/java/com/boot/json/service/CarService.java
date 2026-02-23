@@ -1,26 +1,34 @@
 package com.boot.json.service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.boot.json.model.Car;
+import com.boot.json.model.CarMapper;
+
 public class CarService {
-
-    private final CarMapper carMapper;
-
-    // 입차 로직
-    public void registerEntry(String carNo) {
-        carMapper.insertEntry(carNo);
-    }
+	
+	@Autowired
+    private CarMapper carMapper;
 
     // 출차 전 요금 계산 로직 (가장 중요)
-    public Car calculateParkingFee(String carNo) {
-        Car car = carMapper.selectCar(carNo);
+    public Car calculateParkingFee(Car car) {
+    	
+        Car car_info = carMapper.selectCar(car.getCarNo());
+        
+        car_info.setExitTime(car.getExitTime());
         
         // 1. 주차 시간 계산 (분 단위)
-        long totalMinutes = Duration.between(car.getEntryTime(), LocalDateTime.now()).toMinutes();
+        long totalMinutes = Duration.between(car_info.getEntryTime(), car_info.getExitTime()).toMinutes();
         
         // 2. 요금 계산 (예: 10분당 500원, 할인 시간 차감)
-        long billableMinutes = Math.max(0, totalMinutes - car.getDiscountMinutes());
-        int finalFee = (int) (billableMinutes / 10) * 500;
+        long billableMinutes = Math.max(0, totalMinutes);
+        int finalFee = (int) (billableMinutes / 10) * 500 - car_info.getCoupon();
         
-        car.setFee(finalFee);
-        return car;
+        car_info.setFee(finalFee);
+
+        return car_info;
     }
 }
