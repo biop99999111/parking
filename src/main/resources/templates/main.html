@@ -45,9 +45,17 @@
             <input type="hidden" name="exitTime" th:value="${#temporals.format(T(java.time.LocalDateTime).now(), 'yyyy-MM-dd HH:mm:ss')}">
                 <input type="text" name="carNo" placeholder="출차 차량 번호를 입력하세요" required />
             </div>
+            
+            
+             <!-- 쿠폰사용버튼 -->
+        <div style="margin: 10px 0;">
+        <input type="checkbox" name="coupon" value="1" id="coupon">
+        <label for="coupon">쿠폰사용(9000원할인)</label>     
+        </div>
+        
             <button type="submit" style="background-color: #2196F3;">출차 및 요금계산</button>
         </form>
-
+        
         <div style="margin-top: 20px;"></div>
         <form action="/login"><button type="submit" id="login_button">관리자 로그인</button></form>
     </div>
