@@ -52,10 +52,24 @@ public class CarController {
 	    return "redirect:/";  // 리다이렉트 시 message 전달
 	}
 	
+ 
 	@GetMapping("/exit")
-	public String exitParking(Car car, Model model) {
+	
+	  // 재현 작업한 부분
+	//public String exitParking(Car car, Model model) {
 	    // 1. 요금 계산 및 차량 정보 가져오기 (Service에서 fee, coupon 등이 계산되어 채워짐)
-	    Car car_info = service.calculateParkingFee(car);
+	
+	// 재인 쿠폰 처리 부분
+	public String exitParking(Car car,
+			@RequestParam(required = false) Integer coupon,Model model) {
+			
+		if(coupon != null) {
+	    	  car.setCoupon(coupon);
+	      }else {
+	    	  car.setCoupon(0);
+	    	  }
+		
+		Car car_info = service.calculateParkingFee(car);
 
 	    // 2. 출차 처리 (DB 업데이트)
 	    this.mapper.setExitCar(car_info.getCarNo());
