@@ -39,6 +39,7 @@ dependencies {
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.5'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	
+	implementation 'org.springframework.boot:spring-boot-starter-security' // 2026.02.24 - Spring Security 의존성 추가
 	// 페이징처리 핼퍼 사용 계획이 있다면 주석을 풀고 사용해 주세요
 	//implementation 'com.github.pagehelper:pagehelper-spring-boot-starter:2.1.0'
 }

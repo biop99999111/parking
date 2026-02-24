@@ -20,16 +20,20 @@ public class AdminController {
         this.adminService = adminService;
     }
 
-    // 관리자 차량 목록 조회..
+    // 로그인 페이지 이동
+    @GetMapping("/login")
+    public String loginPage() {
+        return "login"; // login.html
+    }
+
+    // 관리자 차량 목록 조회
     @GetMapping("/admin/cars")
     public String getCarList(@RequestParam(defaultValue = "") String keyword, Model model) {
-        // 차량 목록 조회
-        List<Car> carList = adminService.searchCars(keyword);  // 검색어가 없으면 전체 차량 리스트
+        List<Car> carList = adminService.searchCars(keyword); // 검색어 없으면 전체
 
-        // 모델에 데이터 추가
         model.addAttribute("carList", carList);
-        model.addAttribute("keyword", keyword);  // 검색 키워드 전달
+        model.addAttribute("keyword", keyword);
 
-        return "admin/carList";  // 차량 목록 페이지로 이동
+        return "admin/carList"; // 차량 목록 페이지
     }
 }
