@@ -4,11 +4,12 @@ import com.boot.json.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
+import java.util.Map;
+
 
 @Controller
 @RequiredArgsConstructor
@@ -16,7 +17,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class StoreController {
 
     private final StoreService storeService;
-
+    private final Long storeId = 1L;
+    
     
       // 매장 페이지    
     @GetMapping
@@ -25,7 +27,16 @@ public class StoreController {
         model.addAttribute("couponCount", couponCount);
         return "store";
     }
-  
+    
+    // 차량 검색 & 주차 시간 확인
+    @GetMapping("/parking/search")
+    public String searchParking(@RequestParam String carNo, Model model) {
+        List<Map<String, Object>> records = storeService.getParkingRecords(carNo, storeId);
+        model.addAttribute("records", records);
+        model.addAttribute("carNo", carNo);
+        return "parkingRecords"; // 뷰 이름
+    }
+    
       //쿠폰 사용    
     @PostMapping("/coupon/use")
     public String useCoupon(
@@ -33,19 +44,15 @@ public class StoreController {
             @RequestParam int discountMinutes,
             RedirectAttributes redirectAttributes) {
 
-        int remainCoupon = storeService.applyStoreDiscount(carNo, discountMinutes);
+        try {
+            int remainCoupon = storeService.applyStoreDiscount(storeId, carNo, discountMinutes);
+            redirectAttributes.addFlashAttribute("message", "쿠폰이 적용되었습니다!");
+            redirectAttributes.addFlashAttribute("couponCount", remainCoupon);
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        }
 
-        redirectAttributes.addFlashAttribute("message", "쿠폰이 적용되었습니다!");
-        redirectAttributes.addFlashAttribute("couponCount", remainCoupon);
-
-        return "redirect:/store";
-    }
-
-    //쿠폰 등록 
-    @PostMapping("/coupon/add")
-    public String addCoupon(RedirectAttributes redirectAttributes) {
-        storeService.addCoupon(); 
-        redirectAttributes.addFlashAttribute("message", "쿠폰 1장 등록 완료!");
         return "redirect:/store";
     }
 }
+    

@@ -1,102 +1,107 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>매장 할인 관리</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f5f5;
-            margin: 0;
-            padding: 20px;
-        }
+<meta charset="UTF-8">
+<title>매장 할인 관리</title>
+<style>
+body {
+	font-family: Arial, sans-serif;
+	background: #f5f5f5;
+	margin: 0;
+	padding: 20px;
+}
 
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
+button {
+	padding: 10px 20px;
+	font-size: 16px;
+	cursor: pointer;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+}
 
-        .modal {
-            display: none; 
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6); 
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
+.modal {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.6);
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
+}
 
-        .modal-box {
-            background: white;
-            width: 400px;
-            padding: 30px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
+.modal-box {
+	background: white;
+	width: 400px;
+	padding: 30px;
+	border-radius: 10px;
+	text-align: center;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
 
-        input {
-            width: 90%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
+input {
+	width: 90%;
+	padding: 10px;
+	margin: 10px 0;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+}
 
-        .coupon-info {
-            margin: 15px 0;
-            font-size: 1.1em;
-        }
-    </style>
+.coupon-info {
+	margin: 15px 0;
+	font-size: 1.1em;
+}
+
+</style>
 </head>
 
 <body>
-    <!-- 쿠폰 사용 버튼 -->
-    <button type="button" onclick="openModal()">쿠폰 사용</button>
+	<!-- 쿠폰 사용 버튼 -->
+	<button type="button" onclick="openModal()">쿠폰 사용</button>
 
-    <!-- 모달창 -->
-    <div class="modal" id="couponModal">
-        <div class="modal-box">
-            <h2>매장 할인 적용</h2>
+	<!-- 모달창 -->
+	<div class="modal" id="couponModal">
+		<div class="modal-box">
+			<h2>매장 할인 적용</h2>
 
-            <form th:action="@{/store/coupon/use}" method="post">
-                <input type="text" name="carNo" placeholder="차량 번호 입력" required>
+			<form th:action="@{/store/coupon/use}" method="post">
+				<input type="text" name="carNo" placeholder="차량 번호 입력" required>
 
-                <div style="margin: 15px 0;">
-                    <input type="checkbox" id="discountCheck" name="discountMinutes" value="60" required>
-                    <label for="discountCheck">할인권 1장 사용 (60분)</label>
-                </div>
+				<div style="margin: 15px 0;">
+					<input type="checkbox" id="discountCheck" name="discountMinutes"
+						value="60" required> <label for="discountCheck">할인권
+						1장 사용 (60분)</label>
+				</div>
 
-                <p class="coupon-info">
-                    남은 쿠폰 수: <b th:text="${couponCount}">0</b>장
-                </p>
+				<p class="coupon-info">
+					남은 쿠폰 수: <b th:text="${couponCount}">0</b>장
+				</p>
 
-                <div style="margin-top: 20px;">
-                    <button type="submit" style="background: #007bff; color: white; border: none;">확인</button>
-                    <button type="button" onclick="closeModal()" style="margin-left: 10px;">취소</button>
-                </div>
-            </form>
-        </div>
-    </div>
+				<div style="margin-top: 20px;">
+					<button type="submit"
+						style="background: #007bff; color: white; border: none;">확인</button>
+					<button type="button" onclick="closeModal()"
+						style="margin-left: 10px;">취소</button>
+				</div>
+			</form>
+		</div>
+	</div>
 
-    <script>
-    const modal = document.getElementById("couponModal");
+	<script>
+		const modal = document.getElementById("couponModal");
 
-    // 모달 열기
-    function openModal() {
-        modal.style.display = "flex";
-    }
+		// 모달 열기
+		function openModal() {
+			modal.style.display = "flex";
+		}
 
-    // 모달 닫기 
-    function closeModal() {
-        modal.style.display = "none";
-    }
-</script>
+		// 모달 닫기 
+		function closeModal() {
+			modal.style.display = "none";
+		}
+			
+	</script>
 </body>
 </html>
