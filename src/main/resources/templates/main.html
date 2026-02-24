@@ -1,140 +1,112 @@
+<!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>주차 관리 프로그램</title>
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-        margin: 0;
-        padding: 0;
-        background-color: #f0f0f0;
-      }
+        body { font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 0; background-color: #f0f0f0; }
+        .container { width: 100%; max-width: 800px; margin: 50px auto; padding: 20px; background-color: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
+        h1 { font-size: 2rem; margin-bottom: 30px; }
+        .input-group { margin-bottom: 20px; }
+        .input-group input { padding: 15px; width: 90%; font-size: 1.2rem; border: 1px solid #ccc; border-radius: 5px; }
+        button { background-color: #4caf50; color: white; padding: 15px; margin: 10px 0; border: none; border-radius: 5px; cursor: pointer; font-size: 1.5rem; width: 100%; display: block; }
+        button:hover { background-color: #45a049; }
+        #login_button { background-color: blue; }
 
-      .container {
-        width: 100%;
-        max-width: 800px;
-        margin: 50px auto;
-        padding: 20px;
-        background-color: white;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      }
-
-      h1 {
-        font-size: 2rem;
-        margin-bottom: 30px;
-      }
-
-      .input-group {
-        margin-bottom: 20px;
-      }
-
-      .input-group input {
-        padding: 10px;
-        width: 95%;
-        font-size: 1.2rem;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-      }
-
-      button {
-        background-color: #4caf50;
-        color: white;
-        padding: 15px;
-        margin: 10px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 1.5rem;
-        width: 100%;
-        display: block;
-      }
-
-      button:hover {
-        background-color: #45a049;
-      }
-
-      .spacer {
-        margin-bottom: 30px;
-      }
-
-      .button-container {
-        display: flex;
-        justify-content: space-between;
-      }
-
-      .button-container form {
-        width: 48%; /* 버튼을 양옆에 배치 */
-      }
-
-      #login_button {
-        background-color: blue;
-      }
+        /* 모달 스타일 */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 1000;
+        }
+        .modal-content {
+            background: white; padding: 30px; border-radius: 12px; width: 380px; text-align: center;
+        }
+        .fee-detail { text-align: left; background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 20px 0; }
+        .fee-detail p { margin: 8px 0; font-size: 1.1rem; }
+        .fee-detail span { float: right; font-weight: bold; }
+        .pay-input { width: 100%; padding: 12px; font-size: 1.3rem; border: 2px solid #ddd; border-radius: 8px; box-sizing: border-box; margin-bottom: 20px; }
     </style>
-    <script>
-      window.onload = function() {
-        // 랜덤 번호판 생성 함수
-        function generateRandomPlate() {
-          // 3자리 숫자 (001 ~ 999)
-          const carType = Math.floor(Math.random() * 999) + 1;
-          const carTypeFormatted = carType.toString().padStart(3, '0');
-          
-          // 랜덤 한글 (차량용도) - 예시: '가', '나', '다' 등
-          const koreanCharacter = String.fromCharCode(Math.floor(Math.random() * 27) + 0xAC00);
-          
-          // 4자리 숫자 (0000 ~ 9999)
-          const serialNumber = Math.floor(Math.random() * 10000);
-          const serialNumberFormatted = serialNumber.toString().padStart(4, '0');
-          
-          // 번호판 생성 (3자리 숫자 + 한글 + 4자리 숫자)
-          return `${carTypeFormatted}${koreanCharacter}${serialNumberFormatted}`;
+</head>
+<body>
+    <div class="container">
+        <h1>🚗 주차 관리 시스템</h1>
+
+        <form action="/enter">
+            <input type="hidden" name="entryTime" th:value="${#temporals.format(T(java.time.LocalDateTime).now(), 'yyyy-MM-dd HH:mm:ss')}">
+            <input type="hidden" id="carPlate" name="carNo">
+            <button type="submit">입차</button>
+        </form>
+
+        <div style="margin-top: 40px;"></div>
+
+        <form action="/exit" method="get">
+            <div class="input-group">
+            <input type="hidden" name="exitTime" th:value="${#temporals.format(T(java.time.LocalDateTime).now(), 'yyyy-MM-dd HH:mm:ss')}">
+                <input type="text" name="carNo" placeholder="출차 차량 번호를 입력하세요" required />
+            </div>
+            <button type="submit" style="background-color: #2196F3;">출차 및 요금계산</button>
+        </form>
+
+        <div style="margin-top: 20px;"></div>
+        <form action="/login"><button type="submit" id="login_button">관리자 로그인</button></form>
+    </div>
+
+    <div class="modal-overlay" th:if="${car_info != null}">
+        <div class="modal-content">
+            <h2 style="margin: 0;">요금 정산</h2>
+            <p>차량번호: <b th:text="${car_info.carNo}"></b></p>
+            
+            <div class="fee-detail">
+                <p>총 발생 요금: <span th:text="${#numbers.formatInteger(car_info.fee + car_info.coupon, 0, 'COMMA')} + '원'"></span></p>
+                <p>할인(쿠폰): <span style="color:red;" th:text="'- ' + ${#numbers.formatInteger(car_info.coupon, 0, 'COMMA')} + '원'"></span></p>
+                <hr>
+                <p style="font-size: 1.3rem;">최종 결제액: <span style="color:blue;" th:text="${#numbers.formatInteger(car_info.fee, 0, 'COMMA')} + '원'"></span></p>
+            </div>
+
+            <label style="display:block; text-align:left; margin-bottom:5px; font-weight:bold;">지불 금액 입력</label>
+            <input type="number" id="userMoney" class="pay-input" placeholder="금액을 입력하세요">
+
+            <input type="hidden" id="targetFee" th:value="${car_info.fee}">
+
+            <button onclick="validatePayment()" style="background-color: #4caf50;">결제 하기</button>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        // 입차 시 랜덤 번호판 생성 로직
+        window.onload = function() {
+            function generateRandomPlate() {
+                const carType = Math.floor(Math.random() * 900) + 100;
+                const hangul = "가나다라마거너더러머버서어저";
+                const randomHangul = hangul[Math.floor(Math.random() * hangul.length)];
+                const serial = Math.floor(Math.random() * 9000) + 1000;
+                return `${carType}${randomHangul}${serial}`;
+            }
+            if(document.getElementById('carPlate')) {
+                document.getElementById('carPlate').value = generateRandomPlate();
+            }
         }
 
-        // 번호판 생성
-        const plate = generateRandomPlate();
-        
-        // 숨은 필드에 번호판 값 넣기
-        document.getElementById('carPlate').value = plate;
-      }
+        // 결제 로직
+        function validatePayment() {
+            const target = parseInt(document.getElementById('targetFee').value);
+            const user = parseInt(document.getElementById('userMoney').value);
+
+            if (user === target) {
+                alert("✅ 정산 완료! 차량 차단기가 열립니다.");
+                location.href = "/"; // 메인 페이지로 리다이렉트 (모달 닫힘)
+            } else if (user < target) {
+                alert("❌ 금액이 부족합니다. " + (target - user) + "원을 더 입력해주세요.");
+            } else {
+                alert("⚠️ 결제 금액이 초과되었습니다. 정확한 금액을 입력해주세요.");
+            }
+        }
+
+        /* 알림 메시지 (입차 완료 등) */
+        /*[# th:if="${message}"]*/
+        alert('[[${message}]]');
+        /*[/]*/
     </script>
-  </head>
-  <body>
-    <div class="container">
-      <h1>주차 관리</h1>
-
-      <!-- 입차 폼 -->
-      <form action="/parking/enter">
-        <div class="input-group">
-          <input type="hidden" name="entryTime" th:value="${#dates.format(T(java.time.LocalDateTime).now(), 'yyyy-MM-dd HH:mm:ss')}">
-          <input type="hidden" id="carPlate" name="carNo">
-        </div>
-        <button type="submit">입차</button>
-      </form>
-
-      <div class="spacer"></div>
-
-      <!-- 출차 폼 -->
-      <form action="/parking/exit">
-        <div class="input-group">
-          <input type="hidden" name="exitTime" th:value="${#dates.format(T(java.time.LocalDateTime).now(), 'yyyy-MM-dd HH:mm:ss')}">
-          <input
-            type="text"
-            placeholder="출차 차량 번호를 입력하세요"
-            name="carNo" required
-          />
-        </div>
-        <button type="submit">출차</button>
-      </form>
-
-      <div class="spacer"></div>
-      
-
-      <!-- 로그인 버튼 -->
-      <form action="/login" method="get">
-        <button type="submit" id="login_button">로그인으로 이동</button>
-      </form>
-    </div>
-  </body>
+</body>
 </html>

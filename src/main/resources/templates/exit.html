@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>출차 정산</title>
+</head>
+<body>
+
+<h2>출차 정산</h2>
+
+<form action="/parking/exit" method="post">
+    차량번호: <input type="text" name="carNo" required>
+    <br><br>
+
+    <label>
+    <input type="checkbox" name="coupon" value="1"> 쿠폰 사용(9000월 할인)
+    </label>
+    <br><br>
+
+    <button type="submit">출차 정산</button>
+</form>
+
+</body>
+</html>

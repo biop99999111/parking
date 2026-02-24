@@ -5,7 +5,6 @@
   
 <mapper namespace="com.boot.json.model.storeMapper">
  
-  
   <select id="getcouponCount" resultType="int">
        select coupon_count
        from store where store_id =#{storeId}

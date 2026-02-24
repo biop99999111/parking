@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>정산 결과</title>
+</head>
+<body>
+
+<h2>정산 결과</h2>
+<p>차량 번호: <span th:text="${car.carNo}"></span></p>
+<p>사용 쿠폰: <span th:text="${car.coupon == 1 ? '사용' : '미사용'}"></span></p>
+<p>최종 요금: <span th:text="${car.fee}"></span> 원</p>
+
+<a href="/">메인으로</a>
+
+</body>
+</html>

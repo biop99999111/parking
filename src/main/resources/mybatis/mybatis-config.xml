@@ -8,11 +8,11 @@
 
   
   	<typeAliases>
-  	
-  	<typeAlias type="com.boot.json.model.Car" alias="car"/>
-  	<typeAlias type="com.boot.json.model.Store" alias="store"/>
-  	<typeAlias type="com.boot.json.model.Admin" alias="admin"/>
-  
+	  	
+	  	<typeAlias type="com.boot.json.model.Car" alias="car"/>
+	  	<typeAlias type="com.boot.json.model.Store" alias="store"/>
+	  	<typeAlias type="com.boot.json.model.Admin" alias="admin"/>
+	  
   	
   	
   	</typeAliases>
