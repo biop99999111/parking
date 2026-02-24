@@ -17,7 +17,7 @@ public class StoreService {
 
 
     @Transactional // 할인권 차감과 차량 할인 등록은 동시에 성공해야 함
-    public int applyStoreDiscount(Long storeId, String carNo, int discountMinutes) {
+    public int applyStoreDiscount(String carNo, int discountMinutes) {
         // 1. 매장의 할인권 잔여량 확인
         int updateRow = storeMapper.decreaseCoupon(storeId);
         if (updateRow == 0) {
