@@ -6,12 +6,20 @@
 </head>
 <body>
 
-<h2>정산 결과</h2>
-<p>차량 번호: <span th:text="${car.carNo}"></span></p>
-<p>사용 쿠폰: <span th:text="${car.coupon == 1 ? '사용' : '미사용'}"></span></p>
-<p>최종 요금: <span th:text="${car.fee}"></span> 원</p>
+<h2>출차 요금 결과</h2>
 
-<a href="/">메인으로</a>
+<p>차량 번호: <span th:text="${car.carNo}"></span></p>
+<p>최종 요금: <strong th:text="${car.fee}"></strong> 원</p>
+
+<p th:if="${useCoupon}">
+    쿠폰이 적용되었습니다 (9000원 할인)
+</p>
+
+<p th:if="${!useCoupon}">
+    쿠폰을 사용하지 않았습니다
+</p>
+
+<a href="/exit">다시 계산하기</a>
 
 </body>
 </html>
