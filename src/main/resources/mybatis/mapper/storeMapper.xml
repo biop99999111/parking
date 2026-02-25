@@ -13,7 +13,20 @@
   <update id="decreaseCoupon">
        update store 
        set coupon_Count = coupon_Count -1
-       where store_id =#{storeId)
+       where store_id =#{storeId}
+       and coupon_count > 0
   </update>
+  
+  <!-- 차량할인 정보 -->
+  <insert id="insertDiscount" parameterType="map">
+     insert into discount_table (store_id, car_no, discount_minutes,apply_date)
+      values(#{storeId}, #{car_No}, #{discountMinutes}, now())
+  </insert>
+  
+  <!-- 차량검색 -->
+  <select id="getParkingRecords" resultType="map">
+     select * from parking_records
+     where car_no = #{carNo}
+  </select>
   
 </mapper>
