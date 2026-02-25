@@ -3,6 +3,8 @@ package com.boot.json.model;
 
 
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 
@@ -11,7 +13,7 @@ public interface CarMapper {
 	
 	void insertEntry(String carNo);
 
-	Car selectCar(String carNo);
+	List<Car> selectCar();
 	
 	void setExitCar(Car car_info);
 
