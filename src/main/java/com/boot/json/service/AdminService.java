@@ -2,17 +2,26 @@ package com.boot.json.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.boot.json.model.AdminMapper;
 import com.boot.json.model.Car;
 
+@Service
 public class AdminService {
 
-    private final AdminMapper adminMapper;
+	@Autowired
+    private AdminMapper adminMapper;
 
-	public List<Car> searchCars(String keyword) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	// 🚗 차량 검색 기능
+    public List<Car> searchCars(String keyword) {
+        if (keyword == null || keyword.isEmpty()) {
+            return adminMapper.getAllCars();
+        } else {
+            return adminMapper.searchCarsByKeyword(keyword);
+        }
+    }
 
 //    // 페이징 처리된 주차 내역 조회
 //    public List<Car> getHistoryList(Criteria cri) {
