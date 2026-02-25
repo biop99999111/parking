@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="com.boot.json.model.adminMapper">
+<mapper namespace="com.boot.json.model.AdminMapper">
     <!-- 관리자 로그인 -->
     <!-- 비밀번호인증 로직은 AdminService.java 에서 처리하도록 함. -->
     <select id="login" resultType="com.boot.json.model.Admin1">
