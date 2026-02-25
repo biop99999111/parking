@@ -18,23 +18,28 @@ public class StoreController {
 
     private final StoreService storeService;
     private final Long storeId = 1L;
+   
     
-    
-      // 매장 페이지    
+   
+      //매장 페이지    
     @GetMapping
     public String storePage(Model model) {
-        int couponCount = storeService.getcouponCount(); 
+    	
+        int couponCount = storeService.getcouponCount(storeId); 
         model.addAttribute("couponCount", couponCount);
         return "store";
     }
     
-    // 차량 검색 & 주차 시간 확인
+
+    // 차량 검색 
     @GetMapping("/parking/search")
     public String searchParking(@RequestParam String carNo, Model model) {
-        List<Map<String, Object>> records = storeService.getParkingRecords(carNo, storeId);
+    	
+        List<Map<String, Object>> records = storeService.searchCar(carNo);
+        
         model.addAttribute("records", records);
         model.addAttribute("carNo", carNo);
-        return "parkingRecords"; // 뷰 이름
+        return "parkingRecords"; 
     }
     
       //쿠폰 사용    
@@ -45,7 +50,7 @@ public class StoreController {
             RedirectAttributes redirectAttributes) {
 
         try {
-            int remainCoupon = storeService.applyStoreDiscount(storeId, carNo, discountMinutes);
+            int remainCoupon = storeService.applyStoreDiscount(storeId, carNo);
             redirectAttributes.addFlashAttribute("message", "쿠폰이 적용되었습니다!");
             redirectAttributes.addFlashAttribute("couponCount", remainCoupon);
         } catch (RuntimeException e) {
@@ -55,4 +60,3 @@ public class StoreController {
         return "redirect:/store";
     }
 }
-    

@@ -1,22 +1,27 @@
 package com.boot.json.model;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import java.util.List;
 import java.util.Map;
+
+
 
 
 @Mapper
 public interface StoreMapper {
 
-	    Store login(Store store);
+	    List<Map<String, Object>> searchCar(@Param("carNo") String carNo);
 
-	    int getCouponCount(Long storeId);
-
-	    int decreaseCoupon(Long storeId);
+	     //매장 잔여 쿠폰 조회
+	    int getCouponCount(@Param("storeId") Long storeId);
 	    
-	    int insertDiscount(Map<String, Object> param);
+         // 쿠폰 수량 차감
+	    int updateStoreCouponDecrease(@Param("storeId") Long storeId);
 	    
-	    List<Map<String, Object>> getParkingRecords(String carNo, Long storeId);
+	     // 차량에 쿠폰 적용
+	    int applyCouponToCar(@Param("carNo") String carNo);  
 	}
+
 
 
 

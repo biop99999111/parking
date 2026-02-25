@@ -20,30 +20,26 @@ public class StoreService {
     }
 
 
-    // 차량 검색 & 주차 기록 조회
-    public List<Map<String, Object>> getParkingRecords(String carNo, Long storeId) {
-        return storeMapper.getParkingRecords(carNo, storeId);
+    // 차량 검색 
+    public List<Map<String, Object>> searchCar(String carNo) {
+    	 return storeMapper.searchCar(carNo);
     }
+    
 
-    // 할인권 적용
+    //할인권 적용
     @Transactional
-    public int applyStoreDiscount(Long storeId, String carNo, int discountMinutes) {   
-		int updatedRows = storeMapper.decreaseCoupon(storeId);
-
-        if (updatedRows == 0) {
-            throw new RuntimeException("쿠폰이 부족하여 할인권을 적용할 수 없습니다.");
+    public int applyStoreDiscount(Long storeId, String carNo) {   
+    	// 매장 전체 쿠폰 수량 
+		int affectedRows = storeMapper.updateStoreCouponDecrease(storeId);
+        if (affectedRows <= 0) {
+            throw new RuntimeException(" 매장에 잔여 쿠폰이 없습니다.");
         }
-
-        // 차량 할인 정보 등록
-        Map<String, Object> param = Map.of(
-        		"storeId", storeId,
-                "carNo", carNo,
-                "discountMinutes", discountMinutes
-        );
-        storeMapper.insertDiscount(param);
-
-        // 남은 쿠폰 수 반환 
+        
+        //차량 쿠폰 적용
+        storeMapper.applyCouponToCar(carNo);
+        
+        //남은 쿠폰 수 반환 
         return storeMapper.getCouponCount(storeId);
     }
-
 }
+
