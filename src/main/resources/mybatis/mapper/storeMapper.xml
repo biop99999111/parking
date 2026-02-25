@@ -3,9 +3,9 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.boot.json.model.storeMapper">
+<mapper namespace="com.boot.json.model.StoreMapper">
 
-	<!--차량검색 -->
+	<!-- 차량검색 -->
 	<select id="searchCar" resultType="map">
 		select
 		carNo, entryTime, exitTime, coupon,storeName
@@ -13,24 +13,28 @@
 		where carNo = #{carNo}
 	</select>
 
-	<!--잔여쿠폰 조회 -->
-	<select id="getCouponCount" resultType="int">
-		select coupon_Count
+	<!-- 매장쿠폰 할인 금액 조회 -->
+	<select id="getCouponAmount" resultType="int">
+		select coupon_amout
 		from store 
-		where store_id = #{storeId}
+		where store_name = #{storeName}
 	</select>
 
-	<!-- 매장 쿠폰 차감 -->
-	<update id="updateStoreCouponDecrease">
-		update Store
-		set coupon_count = coupon_count - 1
-		where store_id =#{storeId} and coupon_count > 0
-	</update>
+    <!-- 쿠폰 차감 -->
+    <update id="decreaseCoupon">
+       update store
+        set coupon_count = coupon_count - 1
+        where store_name = #{storeName}
+          and coupon_count > 0
+    </update>
 
-	<!-- 차량 쿠폰 등록 -->
+	<!-- 차량 쿠폰 적용 -->
 	<update id="applyCouponToCar">
 		update Car
-		set coupon = 1
-		where carNo = #{carNo} and exitTime is null
+		set coupon = #{couponAmount},
+		storeName='하이미디어'
+		where carNo =#{carNo} and exitTime is null
 	</update>
+
+	
 </mapper>
