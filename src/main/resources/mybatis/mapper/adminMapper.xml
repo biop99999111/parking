@@ -7,7 +7,7 @@
     <!-- 관리자 로그인 -->
     <!-- 비밀번호인증 로직은 AdminService.java 에서 처리하도록 함. -->
     <select id="login" parameterType="com.boot.json.model.Admin1" resultType="com.boot.json.model.Admin1">
-        SELECT admin_id, password, role
+        SELECT adminId, password, role
         FROM admin1
         WHERE adminId = #{adminId}
     </select>
