@@ -7,16 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.boot.json.model.Car;
 import com.boot.json.model.CarMapper;
 import com.boot.json.service.CarService;
-<<<<<<< HEAD
-
-import org.springframework.web.bind.annotation.*;
-import java.time.LocalDateTime;
-=======
-import com.boot.json.model.Car;
->>>>>>> branch 'main' of https://github.com/biop99999111/parking.git
-
 @Controller
 public class CarController {
 	
@@ -52,27 +45,16 @@ public class CarController {
 	    return "redirect:/";  // 리다이렉트 시 message 전달
 	}
 	
- 
 	@GetMapping("/exit")
-	
-	  // 재현 작업한 부분
-	//public String exitParking(Car car, Model model) {
-	    // 1. 요금 계산 및 차량 정보 가져오기 (Service에서 fee, coupon 등이 계산되어 채워짐)
-	
-	// 재인 쿠폰 처리 부분
-	public String exitParking(Car car,
-			@RequestParam(required = false) Integer coupon,Model model) {
-			
-		if(coupon != null) {
-	    	  car.setCoupon(coupon);
-	      }else {
-	    	  car.setCoupon(0);
-	    	  }
+	public String exitParking(Car car, Model model) {
 		
-		Car car_info = service.calculateParkingFee(car);
+
+		
+		// 1. 요금 계산 및 차량 정보 가져오기 (Service에서 fee, coupon 등이 계산되어 채워짐)
+	    Car car_info = service.calculateParkingFee(car);
 
 	    // 2. 출차 처리 (DB 업데이트)
-	    this.mapper.setExitCar(car_info.getCarNo());
+	    this.mapper.setExitCar(car_info);
 
 	    // 3. 다시 메인 페이지로 이동하면서 계산된 car_info를 전달
 	    // 이 car_info가 Model에 담겨야 화면에서 모달이 뜹니다.
@@ -81,24 +63,5 @@ public class CarController {
 	    return "main"; // 메인 HTML 파일명
 	}
     
-<<<<<<< HEAD
-
-
-    @PostMapping("/parking/exit")
-    public String exitParking(
-            @RequestParam String carNo,
-            @RequestParam(required = false) Integer coupon,
-            Model model) {
-
-        boolean useCoupon = (coupon != null);
-
-        Car car = CarService.calculatefee(carNo, coupon);
-        model.addAttribute("car", car);
-        
-        return "result";
-    }
-}
-=======
 	
 }
->>>>>>> branch 'main' of https://github.com/biop99999111/parking.git

@@ -12,9 +12,11 @@
     	select * from car
     </select>
 	
-	<delete id="setExitCar" parameterType="car">
-	    delete from car where carNo = #{carNo}
-	</delete>
+	<update id="setExitCar" parameterType="car">
+	    UPDATE CAR
+	    SET exitTime = #{exitTime}
+	    WHERE carNo = #{carNo}
+	</update>
 	
 	<select id="selectOne" resultType="com.test.parking.model.Car">
 	    SELECT *

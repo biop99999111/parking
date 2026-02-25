@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.boot.json.model.Car;
 import com.boot.json.model.CarMapper;
 
-
 @Service
 public class CarService {
     
@@ -36,12 +35,6 @@ public class CarService {
             totalMinutes = 1; 
         }
         
-<<<<<<< HEAD
-        
-        
-        car.setFee(finalFee);
-        return car;
-=======
         // [수정 포인트 2] 정수 나눗셈( / 10)은 소수점을 버립니다. (예: 9분 / 10 = 0)
         // Math.ceil을 써서 1분만 주차해도 10분 요금이 나오도록 올림 처리합니다.
         int tenMinuteUnits = (int) Math.ceil((double) totalMinutes / 10);
@@ -54,12 +47,5 @@ public class CarService {
         car_info.setFee(finalFee);
 
         return car_info;
->>>>>>> branch 'main' of https://github.com/biop99999111/parking.git
     }
-<<<<<<< HEAD
-    
-    }
-
-=======
 }
->>>>>>> branch 'main' of https://github.com/biop99999111/parking.git

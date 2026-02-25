@@ -13,18 +13,16 @@ public interface CarMapper {
 
 	Car selectCar(String carNo);
 	
-	void setExitCar(String carNo);
+	void setExitCar(Car car_info);
 
 	void setParkCar(Car car);
-	
-<<<<<<< HEAD
+
 	void updatefee(Car car);
 	
 	void applyCoupon(String carNo);
-=======
+
 	Car selectOne(String carNo);
 
->>>>>>> branch 'main' of https://github.com/biop99999111/parking.git
 
 
 

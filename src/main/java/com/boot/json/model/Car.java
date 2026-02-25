@@ -19,11 +19,9 @@ public class Car {
     private LocalDateTime exitTime;  // 출차 시간
     
     private int fee;                // 계산된 요금
-<<<<<<< HEAD
+
     private int coupon;		// 쿠폰 금액(예 5000), 안썼으면 0
-=======
-    private int coupon;		// 쿠폰 금액
->>>>>>> branch 'main' of https://github.com/biop99999111/parking.git
+
     private String storeName;
    
 }
