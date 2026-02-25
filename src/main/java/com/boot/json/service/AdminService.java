@@ -12,7 +12,7 @@ public class AdminService {
     @Autowired
     private AdminMapper adminMapper;  // AdminMapper 사용하여 DB에서 관리자 정보 조회
 
-    // 관리자 로그인 확인
+    // 관리자 로그인 확인.
     public boolean adminLoginOk(String adminId, String password) {
         // adminId로 관리자 정보 조회 (password는 나중에 설정할 예정)
         Admin1 admin = adminMapper.login(new Admin1(adminId)); // adminId로만 조회
