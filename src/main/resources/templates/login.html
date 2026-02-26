@@ -33,7 +33,9 @@
         </form>
 
         <!-- 로그인 실패 시 오류 메시지 출력 -->
-        <!-- 진행예정. -->>
+		<div th:if="${error}" style="color: red;">
+    		<p th:text="${error}"></p>
+		</div>
     </div>
 </body>
 </html>
