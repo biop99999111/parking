@@ -26,9 +26,9 @@ public class AdminController {
     
     // 로그인 처리 (POST)
     @PostMapping("/login")
-    public String login(@RequestParam String adminId, 
-                        @RequestParam String password, 
-                        @RequestParam String role, 
+    public String login(@RequestParam("adminId") String adminId, 
+            			@RequestParam("password") String password, 
+            			@RequestParam("role") String role, 
                         Model model) {
 
     	// 로그인 인증
@@ -46,15 +46,10 @@ public class AdminController {
         }
         return "login";  // 기본적으로 로그인 실패 시
     }
-    // 관리자 페이지
+    // 관리자 페이지 (관리자 페이지 경로는 /admin)
     @GetMapping("/admin")
     public String adminPage() {
-        return "admin";  // admin.html
+        return "admin";  // admin.html (관리자 페이지)
     }
-
-    // 매장 페이지
-    @GetMapping("/store")
-    public String storePage() {
-        return "store";  // store.html
-    }
+ 
 }
