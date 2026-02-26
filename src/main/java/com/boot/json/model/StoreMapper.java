@@ -8,7 +8,7 @@ import java.util.Map;
 public interface StoreMapper {
 
 	     // 차량 검색
-	    List<Map<String, Object>> searchCar(@Param("carNo") String carNo);
+	    Car searchCar(@Param("carNo") String carNo);
 
 	     // 매장 잔여 쿠폰 조회
 	    int getCouponCount(@Param("storeName") String storeName);

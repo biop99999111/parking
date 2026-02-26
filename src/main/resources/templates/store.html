@@ -100,6 +100,16 @@ input {
 				</form>
 			</div>
 		</div>
+		
+		<div class="card">
+		    <h2>매장 관리</h2>
+		    <p>
+		        현재 보유 할인권: <span class="coupon-info" th:text="${couponCount}">0</span>장
+		    </p>
+		    <button type="button" onclick="openModal()" style="background: #28a745; color: white;">
+		        할인권 적용하기
+		    </button>
+		</div>
 
 		<script>
 			const modal = document.getElementById("couponModal");

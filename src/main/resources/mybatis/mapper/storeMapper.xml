@@ -6,7 +6,7 @@
 <mapper namespace="com.boot.json.model.StoreMapper">
 
 	<!-- 차량검색 -->
-	<select id="searchCar" resultType="map">
+	<select id="searchCar" resultType="car">
 		select
 		carNo, entryTime, exitTime, coupon,storeName
 		from Car

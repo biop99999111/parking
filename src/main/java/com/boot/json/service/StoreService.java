@@ -1,5 +1,6 @@
 package com.boot.json.service;
 
+import com.boot.json.model.Car;
 import com.boot.json.model.StoreMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ public class StoreService {
     private final StoreMapper storeMapper;
     
     // 차량 검색 메서드 추가
-    public List<Map<String, Object>> searchCar(String carNo) {
+    public Car searchCar(String carNo) {
         return storeMapper.searchCar(carNo);
     }
 
@@ -35,6 +36,7 @@ public class StoreService {
 
         // 차량에 쿠폰 적용
         storeMapper.applyCouponToCar(carNo, couponAmount);
+        storeMapper.decreaseCoupon(storeName);
 
         return couponAmount;
     }

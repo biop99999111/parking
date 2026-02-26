@@ -69,12 +69,12 @@ th {
         </thead>
 
         <tbody>
-            <tr th:each="record : ${records}">
-                <td th:text="${record.carNo}">1234</td>
-                <td th:text="${record.entryTime}">입차</td>
-                <td th:text="${record.exitTime}">출차</td>
-                <td th:text="${record.coupon}">0</td>
-                <td th:text="${record.storeName}">하이미디어</td>
+            <tr>
+                <td th:text="${records.carNo}">1234</td>
+                <td th:text="${records.entryTime}">입차</td>
+                <td th:text="${records.exitTime}">출차</td>
+                <td th:text="${records.coupon}">0</td>
+                <td th:text="${records.storeName}">하이미디어</td>
             </tr>
 
             <!-- 검색 결과 없을 때 -->
