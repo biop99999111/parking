@@ -2,6 +2,8 @@ package com.boot.json.controller;
 
 import com.boot.json.service.StoreService;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +16,11 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/store")
 public class StoreController {
-
-	private final StoreService storeService;
-	private final String storeName = "하이미디어";
+	
+	@Autowired
+	StoreService storeService;
+	
+	private String storeName = "하이미디어";
 
 	// 매장 페이지
 	@GetMapping
