@@ -46,5 +46,15 @@ public class AdminController {
         }
         return "login";  // 기본적으로 로그인 실패 시
     }
-    
+    // 관리자 페이지
+    @GetMapping("/admin")
+    public String adminPage() {
+        return "admin";  // admin.html
+    }
+
+    // 매장 페이지
+    @GetMapping("/store")
+    public String storePage() {
+        return "store";  // store.html
+    }
 }
