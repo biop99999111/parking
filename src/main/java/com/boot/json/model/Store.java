@@ -17,4 +17,10 @@ store_id NUMBER PRIMARY KEY,
 store_name VARCHAR2(100) NOT NULL,
 coupon_amount NUMBER DEFAULT 0
 );
+
+CREATE TABLE Store (
+    store_id NUMBER PRIMARY KEY,
+    store_name VARCHAR2(100) NOT NULL,
+    coupon_amount NUMBER DEFAULT 0
+);
 */

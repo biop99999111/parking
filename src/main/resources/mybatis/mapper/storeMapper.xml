@@ -12,17 +12,24 @@
 		from Car
 		where carNo = #{carNo}
 	</select>
-
+	   
 	<!-- 매장쿠폰 할인 금액 조회 -->
 	<select id="getCouponAmount" resultType="int">
-		select coupon_amout
-		from store 
+		select coupon_amount
+		from Store 
 		where store_name = #{storeName}
 	</select>
 
+   <!-- 매장 쿠폰 수량 조회 (컨트롤러 스토어페이지에서 사용) -->
+    <select id="getCouponCount" resultType="int">
+        select coupon_count
+        from Store
+        where store_name = #{storeName}
+    </select>
+
     <!-- 쿠폰 차감 -->
     <update id="decreaseCoupon">
-       update store
+       update Store
         set coupon_count = coupon_count - 1
         where store_name = #{storeName}
           and coupon_count > 0
