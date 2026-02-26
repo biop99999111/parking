@@ -10,3 +10,11 @@ public class Store {
     private String password;        // 매장 로그인 비번
     private int couponCount;        // 보유 중인 할인권 개수
 }
+
+
+/*CREATE TABLE Store (
+store_id NUMBER PRIMARY KEY,
+store_name VARCHAR2(100) NOT NULL,
+coupon_amount NUMBER DEFAULT 0
+);
+*/
