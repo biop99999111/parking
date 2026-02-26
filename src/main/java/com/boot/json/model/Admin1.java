@@ -19,3 +19,17 @@ public class Admin1 {
         this.password = password;
     }
 }
+
+/*
+CREATE TABLE admin1 (
+    adminId VARCHAR2(50) PRIMARY KEY,
+    password VARCHAR2(100),
+    role VARCHAR2(20)
+);
+
+INSERT INTO admin1 (adminId, password, role) 
+VALUES ('admin', '1234', 'ADMIN');
+
+INSERT INTO admin1 (adminId, password, role) 
+VALUES ('user', '1234', 'STORE');
+*/
