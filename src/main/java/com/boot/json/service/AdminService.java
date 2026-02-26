@@ -16,7 +16,7 @@ public class AdminService {
     public boolean adminLoginOk(String adminId, String password) {
         // adminId로 관리자 정보 조회 (password는 나중에 설정할 예정)
         Admin1 admin = adminMapper.login(new Admin1(adminId)); // adminId로만 조회
-
+        
         // 관리자 정보가 존재하면 비밀번호 확인
         if (admin != null) {
             // 비밀번호 설정 (DB에서 조회된 관리자 정보의 비밀번호를 설정)
@@ -24,7 +24,7 @@ public class AdminService {
             return password.equals(admin.getPassword());  // 비밀번호 일치 여부 확인
         }
 
-        // 관리자 정보가 없거나 비밀번호가 일치하지 않으면 false 반환
+        // 관리자정보가 없거나 비밀번호가 일치하지 않으면 false 반환
         return false;
     }
 }

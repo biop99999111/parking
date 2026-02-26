@@ -7,7 +7,9 @@
 <body>
     <div class="container">
         <h2>주차 관리 시스템 - 로그인</h2>
-
+		<h4>관리자계정 id: admin / pw: 1234 </h4>
+		<h4>매장접속계정 id: user / pw: 1234</h4>
+		
         <!-- 로그인 폼 -->
         <form action="/login" method="post">
             <div>
@@ -33,7 +35,9 @@
         </form>
 
         <!-- 로그인 실패 시 오류 메시지 출력 -->
-        <!-- 진행예정. -->>
+		<div th:if="${error}" style="color: red;">
+    		<p th:text="${error}"></p>
+		</div>
     </div>
 </body>
 </html>

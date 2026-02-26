@@ -14,7 +14,7 @@ public class Admin1 {
         this.adminId = adminId;
     }
 
-    // 비밀번호 설정 메서드 (password는 setter로 설정.)
+    // 비밀번호 설정 메서드 (password는 setter로 설정)
     public void setPassword(String password) {
         this.password = password;
     }
