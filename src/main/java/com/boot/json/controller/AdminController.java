@@ -49,7 +49,7 @@ public class AdminController {
     // 관리자 페이지 (관리자 페이지 경로는 /admin)
     @GetMapping("/admin")
     public String adminPage() {
-        return "admin";  // admin.html (관리자 페이지)
+        return "admin";  // admin.html(관리자 페이지)
     }
- 
+    
 }

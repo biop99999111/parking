@@ -5,8 +5,23 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<div class="container">
-		<h2>주차 관리 시스템 - 관리자 기능</h2>
+	<h1>관리자페이지 테스트</h1>
+	<div>
+	
+	
+	<!-- 검색 폼 영역 -->
+	   <form method="post" action="carList">
+	   
+	      <select name="field">
+	         <option value="carNo">차량번호</option>
+	         <option value="entryTime">입차시간</option>
+	         <option value="exitTime">출차시간</option>	      
+	      </select>
+	      
+	      <input name="keyword">&nbsp;&nbsp;&nbsp;
+	      <input type="submit" value="검색">
+	   </form>
+	
 	</div>
 </body>
 </html>

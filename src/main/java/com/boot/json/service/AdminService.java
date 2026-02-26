@@ -24,7 +24,7 @@ public class AdminService {
             return password.equals(admin.getPassword());  // 비밀번호 일치 여부 확인
         }
 
-        // 관리자 정보가 없거나 비밀번호가 일치하지 않으면 false 반환
+        // 관리자정보가 없거나 비밀번호가 일치하지 않으면 false 반환
         return false;
     }
 }
