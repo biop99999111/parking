@@ -4,35 +4,34 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.boot.json.model.AdminMapper">
-    <!-- 관리자 로그인 -->
-    <!-- 비밀번호인증 로직은 AdminService.java 에서 처리하도록 함. -->
-    <select id="login" resultType="com.boot.json.model.Admin1">
+
+    <!-- 관리자 로그인 (별칭 admin 사용) -->
+    <select id="login" resultType="admin">
         SELECT adminId, password, role
         FROM admin1
         WHERE adminId = #{adminId}
     </select>
     
- 
+    <!-- 차량 검색 (별칭 car 사용) -->
+    <select id="searchCar" resultType="car">
+        SELECT carNo, entryTime, exitTime, coupon, storeName 
+        FROM car
+        <where>
+            <if test="field == 'carNo'">
+                AND carNo LIKE '%' || #{keyword} || '%'
+            </if>
+            <if test="field == 'entryTime'">
+                AND entryTime LIKE '%' || #{keyword} || '%'
+            </if>
+            <if test="field == 'exitTime'">
+                AND exitTime LIKE '%' || #{keyword} || '%'
+            </if>
+        </where>
+        ORDER BY entryTime DESC
+    </select>
 
-<!-- [수정 후] Oracle 전용 기법 적용 -->
-<select id="searchCar" resultType="com.boot.json.model.Car">
-    SELECT * FROM car
-    <where>
-        <if test="field != null and field == 'carNo' and keyword != ''">
-            AND carNo LIKE '%' || #{keyword} || '%'
-        </if>
-        <if test="field != null and field == 'entryTime' and keyword != ''">
-            AND entryTime LIKE '%' || #{keyword} || '%'
-        </if>
-        <if test="field != null and field == 'exitTime' and keyword != ''">
-            AND exitTime LIKE '%' || #{keyword} || '%'
-        </if>
-    </where>
-    ORDER BY entryTime DESC
-</select>
-<delete id="deleteCar">
-    DELETE FROM car WHERE carNo = #{carNo}
-</delete>
-
+    <delete id="deleteCar">
+        DELETE FROM car WHERE carNo = #{carNo}
+    </delete>
 
 </mapper>

@@ -1,105 +1,192 @@
-<style>
-    :root {
-        --main-green: #4CAF50; /* 입차 버튼 색상 */
-        --main-skyblue: #2196F3; /* 출차 버튼 색상 */
-        --main-blue: #0000FF; /* 관리자 로그인 버튼 색상 */
-    }
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주차 관리 시스템 (관리자)</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; font-family: 'Pretendard', sans-serif; }
+        
+   .admin-search-container { 
+    max-width: 600px;    /* 너비를 600px로 약간 넓히면 70% 비율이 더 시원해 보입니다 */
+    margin: 60px auto;   /* 상하 60px 여백, 좌우 auto로 컨테이너 중앙 정렬 */
+    padding: 20px;
+    text-align: center;  /* 컨테이너 내부의 인라인 요소들도 중앙 정렬 */
+}
 
-    body { background-color: #f8f9fa; font-family: 'Pretendard', sans-serif; }
-    
-    /* 카드 및 헤더 디자인 */
-    .card { border: none; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-    .card-header { 
-        background-color: white !important; 
-        color: #333 !important; 
-        border-bottom: 2px solid #eee; 
-        font-weight: bold; 
-        font-size: 1.5rem;
-        text-align: center;
-        padding: 20px;
-    }
+/* 2. 제목: 왼쪽 정렬에서 중앙 정렬로 수정 */
+.title { 
+    font-weight: 800; 
+    margin-bottom: 30px; 
+    font-size: 1.7rem; 
+    color: #333; 
+    text-align: center;  /* [수정] 왼쪽 -> 중앙 정렬 */
+}
 
-    /* 메인 이미지의 버튼 스타일을 닮은 검색/삭제 버튼 */
-    .btn-primary { background-color: var(--main-skyblue); border: none; height: 50px; font-weight: bold; border-radius: 8px; }
-    .btn-primary:hover { background-color: #1976D2; }
-    
-    .btn-danger { background-color: #ff4d4d; border: none; border-radius: 8px; }
-    
-    /* 입력창 스타일 */
-    .form-control, .form-select {
+/* 3. 입력창과 조회 버튼: 너비 70% 유지 및 중앙 정렬 */
+.form-control-custom, .btn-search {
+    width: 70%;           /* 너비 70% */
+    height: 60px;         /* 높이 60px */
+    border-radius: 12px;
+    font-size: 1.1rem;
+    display: block;       /* 블록 요소로 설정 */
+    margin-left: auto;    /* 좌우 auto 마진으로 블록 요소 중앙 정렬 */
+    margin-right: auto; 
+    margin-bottom: 15px;  /* 요소 간 간격 */
+    text-align: center;   /* 입력창 안의 텍스트도 중앙 정렬 (선택 사항) */
+}
+
+/* [추가] 드롭다운(select) 박스도 중앙 정렬 */
+.form-select {
+    width: 70%;
+    margin: 0 auto 15px auto;
+    display: block;
+}
+
+    /* 드롭다운(select) 박스도 똑같이 중앙 정렬하고 싶을 경우 */
+    .form-select-custom {
+        width: 70%;
         height: 50px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
+        margin: 0 auto 10px auto;
+        display: block;
+        border-radius: 10px;
+        border: 1px solid #dee2e6;
     }
 
-    /* 테이블 디자인 */
-    .table thead { background-color: #f1f1f1; }
-    .badge-success { background-color: var(--main-green); }
-    .badge-secondary { background-color: #9e9e9e; }
+        .form-control-custom {
+            border: 1px solid #dee2e6;
+            padding: 0 20px;
+            background-color: #fff;
+        }
 
-    .title-icon { width: 30px; margin-right: 10px; vertical-align: middle; }
-</style>
-<!-- 상단 CSS 생략 (위의 스타일 포함) -->
-<div class="container mt-5">
-    <div class="text-center mb-5">
-        <h2 class="fw-bold"><img src="car_icon.png" class="title-icon">주차 관리 시스템 <span class="text-muted" style="font-size: 0.8em;">(관리자)</span></h2>
-    </div>
+        .btn-search {
+            background-color: #2196F3; /* 차량 조회 버튼 색상 */
+            color: white;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .btn-search:hover { background-color: #1976D2; }
 
-    <!-- 검색창 (이미지의 입력창 스타일 적용) -->
-    <div class="card mb-4">
-        <div class="card-body p-4">
-            <form th:action="@{/admin/search}" method="post" class="row g-2">
-                <div class="col-md-2">
-                    <select name="field" class="form-select">
-                        <option value="carNo">차량번호</option>
-                        <option value="entryTime">입차시간</option>
-                    </select>
-                </div>
-                <div class="col-md-8">
-                    <input type="text" name="keyword" class="form-control" placeholder="조회할 차량 번호를 입력하세요">
-                </div>
-                <div class="col-md-2 d-grid">
-                    <button type="submit" class="btn btn-primary text-white">차량 조회</button>
-                </div>
-            </form>
-        </div>
-    </div>
+        /* 2. 하단 리스트 영역: 정돈된 테이블 레이아웃 */
+        .list-container { max-width: 1100px; margin: 0 auto 80px; }
+        
+        .table-card { 
+            border: none; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+            overflow: hidden; 
+            background: white;
+        }
 
-    <!-- 테이블 리스트 -->
-    <div class="card">
-        <div class="card-header">주차 전체 리스트</div>
-        <div class="card-body p-0">
-            <table class="table table-hover mb-0 text-center align-middle">
-                <thead>
-                    <tr>
-                        <th>순번</th>
-                        <th>차량번호</th>
-                        <th>입차시간</th>
-                        <th>출차시간</th>
-                        <th>상태</th>
-                        <th>관리</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="car, iter : ${carList}">
-                        <td th:text="${iter.count}">1</td>
-                        <td class="fw-bold" th:text="${car.carNo}">12가 3456</td>
-                        <td th:text="${car.entryTime}">2026-03-03 10:00</td>
-                        <td th:text="${car.exitTime ?: '-'}">-</td>
-                        <td>
-                            <span th:if="${car.exitTime == null}" class="badge badge-success p-2">주차 중</span>
-                            <span th:if="${car.exitTime != null}" class="badge badge-secondary p-2">출차 완료</span>
-                        </td>
-                        <td>
-                            <form th:action="@{/admin/delete}" method="post" onsubmit="return confirm('삭제하시겠습니까?');">
-                                <input type="hidden" name="carNo" th:value="${car.carNo}">
-                                <button type="submit" class="btn btn-danger btn-sm px-3">삭제</button>
-                            </form>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        .custom-table {
+            width: 100%;
+            table-layout: fixed; /* 일정한 열 간격 유지 */
+            margin-bottom: 0;
+        }
+
+        .custom-table th, .custom-table td {
+            text-align: center !important; /* 가로 중앙 정렬 */
+            vertical-align: middle !important; /* 세로 중앙 정렬 */
+            padding: 18px 10px;
+        }
+
+        .custom-table th { background-color: #f1f3f5; font-weight: 700; color: #495057; }
+
+        /* 상태 배지 (주차 중) */
+        .badge-parking { 
+            background-color: #4CAF50; 
+            color: white; 
+            padding: 6px 14px; 
+            border-radius: 8px; 
+            font-weight: 600; 
+            font-size: 0.85rem; 
+        }
+
+        /* [핵심] 빨간색 삭제 버튼 스타일 */
+        .btn-delete-red {
+            background-color: #ff4d4d; /* 선명한 빨간색 */
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .btn-delete-red:hover {
+            background-color: #e03131; 
+            transform: scale(1.05);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 1. 상단 검색 영역 (기능 유지 및 디자인 수정) -->
+<div class="admin-search-container">
+    <div class="title">주차 관리 시스템 <span class="text-muted fs-6">(관리자)</span></div>
+
+    <form th:action="@{/admin/search}" method="post">
+        <!-- 필드 선택 드롭다운 -->
+        <select name="field" class="form-select mb-2" style="border-radius: 10px; height: 50px; border: 1px solid #dee2e6;">
+            <option value="carNo">차량번호</option>
+            <option value="entryTime">입차시간</option>
+        </select>
+        
+        <!-- 차량 번호 입력창: store.html과 동일 크기 -->
+        <input type="text" name="keyword" class="form-control-custom shadow-sm" 
+               placeholder="조회할 차량 번호를 입력하세요" required th:value="${keyword}">
+        
+        <!-- 차량 조회 버튼: store.html과 동일 크기 -->
+        <button type="submit" class="btn btn-search shadow-sm">차량 조회</button>
+    </form>
+</div>
+
+<!-- 2. 하단 리스트 영역 (가운데 정렬 및 빨간 삭제 버튼) -->
+<div class="list-container px-3">
+    <h4 class="text-center fw-bold mb-4">주차 전체 리스트</h4>
+    <div class="card table-card shadow">
+        <table class="table table-hover custom-table">
+            <thead>
+                <tr>
+                    <th style="width: 8%;">순번</th>
+                    <th style="width: 18%;">차량번호</th>
+                    <th style="width: 22%;">입차시간</th>
+                    <th style="width: 22%;">출차시간</th>
+                    <th style="width: 15%;">상태</th>
+                    <th style="width: 15%;">관리</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 리스트가 비어있지 않을 때 출력 -->
+                <tr th:each="car, iter : ${carList}">
+                    <td th:text="${iter.count}">1</td>
+                    <td class="fw-bold text-dark" th:text="${car.carNo}">735다5848</td>
+                    <td th:text="${#temporals.format(car.entryTime, 'yyyy-MM-dd HH:mm:ss')}">2026-03-03 12:43:28</td>
+                    <td th:text="${car.exitTime != null ? #temporals.format(car.exitTime, 'yyyy-MM-dd HH:mm:ss') : '-'}">-</td>
+                    <td><span class="badge-parking">주차 중</span></td>
+                    <td>
+                        <!-- [수정] 빨간색 버튼 및 중앙 정렬 적용 -->
+                        <form th:action="@{/admin/delete}" method="post" 
+                              onsubmit="return confirm('이 데이터를 삭제하시겠습니까?');" 
+                              style="margin: 0; display: inline-block;">
+                            <input type="hidden" name="carNo" th:value="${car.carNo}">
+                            <button type="submit" class="btn-delete-red shadow-sm">삭제</button>
+                        </form>
+                    </td>
+                </tr>
+                <!-- 데이터가 없을 때 표시 -->
+                <tr th:if="${#lists.isEmpty(carList)}">
+                    <td colspan="6" class="py-5 text-muted">주차 내역이 존재하지 않습니다.</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
+</body>
+</html>

@@ -6,6 +6,7 @@ package com.boot.json.model;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 
 @Mapper
@@ -25,7 +26,7 @@ public interface CarMapper {
 
 	Car selectOne(String carNo);
 
-
+	List<Car> selectCarByNo(@Param("carNo") String carNo);
 
 
 

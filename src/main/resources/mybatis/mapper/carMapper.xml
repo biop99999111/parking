@@ -18,11 +18,20 @@
 	    WHERE carNo = #{carNo}
 	</update>
 	
-	<select id="selectOne" resultType="com.boot.json.model.Car">
-	    SELECT *
-	    FROM CAR
-	    WHERE CARNO = #{carNo}  <!-- 현재 조건이 차량번호만임 -->
-	</select>
+<select id="selectOne" resultType="com.boot.json.model.Car">
+    SELECT *
+    FROM CAR
+    WHERE CARNo LIKE '%' || #{carNo} || '%'
+      AND exitTime IS NULL  <!-- 아직 주차 중인 차량만 조회 -->
+</select>
+
+	<select id="selectCarByNo" resultType="com.boot.json.model.Car">
+    SELECT *
+    FROM CAR
+    WHERE CARNo LIKE '%' || #{carNo} || '%'
+      AND exitTime IS NULL  /* 아직 나가지 않은 차량만 */
+    ORDER BY entryTime DESC /* 최신 입차순 정렬 */
+</select>
 	
 	
 </mapper>

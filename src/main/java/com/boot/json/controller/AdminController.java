@@ -36,7 +36,7 @@ public class AdminController {
             if ("ADMIN".equals(role)) {
                 return "redirect:/admin";  
             } else if ("STORE".equals(role)) {
-                return "redirect:/store";
+                return "redirect:/store/store";
             }
         }
         

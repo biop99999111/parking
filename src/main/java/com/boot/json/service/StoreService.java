@@ -16,9 +16,7 @@ public class StoreService {
     private final StoreMapper storeMapper;
     
     // 차량 검색 메서드 추가
-    public Car searchCar(String carNo) {
-        return storeMapper.searchCar(carNo);
-    }
+  
 
     // 쿠폰 금액 조회 메서드 추가
     public int getCouponCount(String storeName) {
@@ -40,4 +38,6 @@ public class StoreService {
 
         return couponAmount;
     }
+    
+    
 }

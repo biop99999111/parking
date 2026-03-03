@@ -1,7 +1,11 @@
 package com.boot.json.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor  // <--- 이게 없으면 MyBatis가 객체를 못 만듭니다!
+@AllArgsConstructor
 @Data
 public class Admin1 {
 	

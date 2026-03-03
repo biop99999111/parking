@@ -1,91 +1,148 @@
-<style>
-    :root {
-        --main-green: #4CAF50; /* 입차 버튼 색상 */
-        --main-skyblue: #2196F3; /* 출차 버튼 색상 */
-        --main-blue: #0000FF; /* 관리자 로그인 버튼 색상 */
-    }
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주차 관리 시스템 - 검색 결과</title>
+    <link href="https://cdn.jsdelivr.net" rel="stylesheet">
+    <style>
+        :root {
+            --main-green: #4CAF50;    /* 주차 중 배경색 */
+            --main-skyblue: #2196F3;  /* 버튼/검색색 */
+            --main-blue: #0000FF;     /* 돌아가기 버튼색 */
+            --main-red: #ff4d4d;      /* 삭제 버튼색 */
+        }
 
-    body { background-color: #f8f9fa; font-family: 'Pretendard', sans-serif; }
-    
-    /* 카드 및 헤더 디자인 */
-    .card { border: none; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-    .card-header { 
-        background-color: white !important; 
-        color: #333 !important; 
-        border-bottom: 2px solid #eee; 
-        font-weight: bold; 
-        font-size: 1.5rem;
-        text-align: center;
-        padding: 20px;
-    }
+        body { background-color: #f8f9fa; font-family: 'Pretendard', sans-serif; }
 
-    /* 메인 이미지의 버튼 스타일을 닮은 검색/삭제 버튼 */
-    .btn-primary { background-color: var(--main-skyblue); border: none; height: 50px; font-weight: bold; border-radius: 8px; }
-    .btn-primary:hover { background-color: #1976D2; }
-    
-    .btn-danger { background-color: #ff4d4d; border: none; border-radius: 8px; }
-    
-    /* 입력창 스타일 */
-    .form-control, .form-select {
-        height: 50px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-    }
+        /* 1. 상단 정보 영역: 중앙 집중형 스타일 */
+        .admin-search-container { 
+            max-width: 600px; 
+            margin: 60px auto 40px auto; 
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .title { 
+            font-weight: 800; 
+            margin-bottom: 20px; 
+            font-size: 1.7rem; 
+            color: #333; 
+        }
 
-    /* 테이블 디자인 */
-    .table thead { background-color: #f1f1f1; }
-    .badge-success { background-color: var(--main-green); }
-    .badge-secondary { background-color: #9e9e9e; }
+        /* 돌아가기 버튼 스타일: 검색 버튼과 크기 통일 및 중앙 정렬 */
+        .btn-back {
+            width: 70%;           /* 너비 70% */
+            height: 60px;         /* 높이 60px */
+            border-radius: 12px;
+            font-size: 1.1rem;
+            display: block;       /* 블록 요소 */
+            margin: 0 auto 15px auto; /* 중앙 정렬 */
+            background-color: var(--main-blue);
+            color: white;
+            border: none;
+            font-weight: 700;
+            line-height: 45px;    /* 텍스트 수직 중앙 */
+            transition: opacity 0.2s;
+        }
+        .btn-back:hover { opacity: 0.8; color: white; }
 
-    .title-icon { width: 30px; margin-right: 10px; vertical-align: middle; }
-</style>
-<!-- 상단 CSS 생략 -->
-<div class="container mt-5">
-    <div class="text-center mb-4">
-        <h3 class="fw-bold">🔍 차량 검색 결과</h3>
-        <p class="text-muted">'<span th:text="${keyword}" class="text-primary fw-bold"></span>' 검색 결과 총 <span th:text="${#lists.size(searchList)}"></span>건</p>
-    </div>
+        /* 2. 하단 리스트 영역: 정돈된 테이블 레이아웃 */
+        .list-container { max-width: 1100px; margin: 0 auto 80px; }
+        
+        .table-card { 
+            border: none; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+            overflow: hidden; 
+            background: white;
+        }
 
-    <div class="card shadow-sm mb-4">
-        <div class="card-body text-center">
-            <a th:href="@{/admin}" class="btn btn-dark w-100" style="background-color: var(--main-blue); border:none; height:50px; line-height:35px; font-weight:bold;">
-                전체 리스트로 돌아가기
-            </a>
-        </div>
-    </div>
+        .custom-table {
+            width: 100%;
+            table-layout: fixed; /* 일정한 열 간격 */
+            margin-bottom: 0;
+        }
 
-    <!-- 결과 리스트 (admin.html과 동일한 테이블 스타일) -->
-    <div class="card">
-        <div class="card-body p-0">
-            <table class="table table-hover mb-0 text-center align-middle">
-                <thead class="table-light">
-                    <tr>
-                        <th>순번</th>
-                        <th>차량번호</th>
-                        <th>입차시간</th>
-                        <th>상태</th>
-                        <th>관리</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="car, iter : ${searchList}">
-                        <td th:text="${iter.count}">1</td>
-                        <td class="fw-bold text-primary" th:text="${car.carNo}">12가 3456</td>
-                        <td th:text="${car.entryTime}">2026-03-03 10:00</td>
-                        <td>
-                            <span th:if="${car.exitTime == null}" class="badge badge-success p-2">주차 중</span>
-                            <span th:if="${car.exitTime != null}" class="badge badge-secondary p-2">출차 완료</span>
-                        </td>
-                        <td>
-                            <form th:action="@{/admin/delete}" method="post">
-                                <input type="hidden" name="carNo" th:value="${car.carNo}">
-                                <button type="submit" class="btn btn-danger btn-sm">삭제</button>
-                            </form>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        .custom-table th, .custom-table td {
+            text-align: center !important; 
+            vertical-align: middle !important; 
+            padding: 18px 10px;
+        }
+
+        .custom-table th { background-color: #f1f3f5; font-weight: 700; color: #495057; }
+
+        /* 상태 및 버튼 스타일 */
+        .badge-parking { background-color: var(--main-green); color: white; padding: 6px 14px; border-radius: 8px; font-weight: 600; font-size: 0.85rem; }
+        .badge-done { background-color: #adb5bd; color: white; padding: 6px 14px; border-radius: 8px; font-weight: 600; font-size: 0.85rem; }
+
+        .btn-delete-red {
+            background-color: var(--main-red); 
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .btn-delete-red:hover { background-color: #e03131; transform: scale(1.05); color: white; }
+    </style>
+</head>
+<body>
+
+<!-- 1. 상단 결과 요약 및 돌아가기 버튼 -->
+<div class="admin-search-container">
+    <div class="title">🔍 차량 검색 결과</div>
+    <p class="text-muted mb-4">
+        '<span th:text="${keyword}" class="text-primary fw-bold"></span>' 검색 결과 
+        총 <span class="fw-bold" th:text="${#lists.size(searchList)}">0</span>건이 발견되었습니다.
+    </p>
+
+    <!-- 전체 리스트로 돌아가기 버튼: 너비 70% 중앙 정렬 -->
+    <a th:href="@{/admin}" class="btn-back shadow-sm text-decoration-none">
+        전체 리스트로 돌아가기
+    </a>
+</div>
+
+<!-- 2. 하단 리스트 영역 (테이블 간격 정렬) -->
+<div class="list-container px-3">
+    <div class="card table-card shadow">
+        <table class="table table-hover custom-table">
+            <thead>
+                <tr>
+                    <th style="width: 8%;">순번</th>
+                    <th style="width: 22%;">차량번호</th>
+                    <th style="width: 30%;">입차시간</th>
+                    <th style="width: 20%;">상태</th>
+                    <th style="width: 20%;">관리</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="car, iter : ${searchList}">
+                    <td th:text="${iter.count}">1</td>
+                    <td class="fw-bold text-dark" th:text="${car.carNo}">12가 3456</td>
+                    <td th:text="${#temporals.format(car.entryTime, 'yyyy-MM-dd HH:mm:ss')}">2026-03-03 10:00:00</td>
+                    <td>
+                        <span th:if="${car.exitTime == null}" class="badge-parking">주차 중</span>
+                        <span th:if="${car.exitTime != null}" class="badge-done">출차 완료</span>
+                    </td>
+                    <td>
+                        <form th:action="@{/admin/delete}" method="post" 
+                              onsubmit="return confirm('정말로 삭제하시겠습니까?');" 
+                              style="margin: 0; display: inline-block;">
+                            <input type="hidden" name="carNo" th:value="${car.carNo}">
+                            <button type="submit" class="btn-delete-red shadow-sm">삭제</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(searchList)}">
+                    <td colspan="5" class="py-5 text-muted">검색 조건에 맞는 차량이 없습니다.</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
+</body>
+</html>

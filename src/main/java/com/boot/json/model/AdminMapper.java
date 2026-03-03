@@ -1,14 +1,15 @@
-package com.boot.json.model;
+package com.boot.json.model; // 패키지 경로 확인
 
-import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param; // 임포트 추가
+import org.apache.ibatis.annotations.Param;
+import java.util.List;
 
 @Mapper
 public interface AdminMapper {
     Admin1 login(Admin1 admin);
-    void deleteCar(@Param("carNo") String carNo);
-
-    // @Param을 붙여야 XML의 #{field}, #{keyword}와 연결됩니다.
+    
+    // @Param 이름을 XML의 #{field}, #{keyword}와 일치시켜야 합니다.
     List<Car> searchCar(@Param("field") String field, @Param("keyword") String keyword);
+    
+    void deleteCar(@Param("carNo") String carNo);
 }
