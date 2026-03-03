@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>주차 관리 시스템</title>
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net" rel="stylesheet">
     <style>
         body { 
@@ -12,15 +11,15 @@
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            height: 100vh; 
+            min-height: 100vh; 
             margin: 0;
+            padding: 40px 0;
             font-family: 'Pretendard', sans-serif;
         }
 
-        /* 이미지의 메인 카드 레이아웃 */
         .main-card { 
             width: 100%; 
-            max-width: 480px; /* 이미지 비율에 맞춘 너비 */
+            max-width: 500px; 
             background: white; 
             padding: 45px; 
             border-radius: 25px; 
@@ -32,56 +31,67 @@
             margin-bottom: 35px; 
             font-size: 1.6rem;
             color: #333;
-            text-align: left;
+            text-align: center; /* 제목 가운데 정렬 */
         }
 
-        /* 이미지 상단 회색 안내 박스 */
         .info-box {
             background-color: #f1f3f5;
             padding: 25px;
             border-radius: 15px;
             margin-bottom: 30px;
-            text-align: left;
+            text-align: center; /* 매장 정보 가운데 정렬 */
             font-size: 0.95rem;
             color: #666;
             line-height: 1.8;
         }
 
-        /* [핵심 수정] 입력창과 버튼의 너비를 동일하게 100%로 설정 */
-        .form-control-custom {
-            width: 90%;       /* 너비 동일화 */
-            height: 60px;      /* 높이 설정 */
-            border: 1px solid #eee;
+        .form-control-custom, .btn-search {
+            width: 100%;       
+            height: 60px;      
             border-radius: 12px;
+            font-size: 1.1rem;
+            display: block;
+            margin-bottom: 20px; 
+            text-align: center; /* 입력창 텍스트 가운데 정렬 */
+        }
+
+        .form-control-custom {
+            border: 1px solid #eee;
             padding: 0 20px;
-            font-size: 1rem;
-            margin-bottom: 25px; /* 입력창과 버튼 사이의 간격 */
             color: #333;
         }
 
-        .form-control-custom::placeholder { color: #bbb; }
-
-        /* [핵심 수정] 버튼의 너비를 입력창과 동일하게 100%로 설정 */
         .btn-search {
-            width: 100%;       /* 너비 동일화 */
-            height: 60px;      /* 높이 설정 */
             background-color: #2196F3;
             color: white;
             border: none;
-            font-size: 1.1rem;
             font-weight: 700;
-            border-radius: 12px;
-            transition: background-color 0.2s;
         }
 
-        .btn-search:hover { background-color: #1976D2; color: white; }
-
-        /* 하단 로그인 링크 */
-        .footer-link-box {
-            margin-top: 35px;
-            text-align: left;
+        /* 차량 리스트 아이템 스타일 - 가운데 정렬로 수정 */
+        .car-item {
+            border: 1px solid #f1f3f5;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 15px;
+            background-color: #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            text-align: center; /* 내부 텍스트 가운데 정렬 */
         }
 
+        .btn-coupon {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            padding: 10px 25px;
+            width: 100%; /* 버튼도 너비를 맞춰서 정돈 */
+            margin-top: 15px;
+        }
+        .btn-coupon:disabled { background-color: #ccc; }
+
+        .footer-link-box { margin-top: 35px; text-align: center; } /* 링크 가운데 정렬 */
         .login-move-link {
             color: #0000FF;
             text-decoration: none;
@@ -93,33 +103,68 @@
 </head>
 <body>
 
-<div class="main-card">
+<div class="main-card shadow">
     <div class="title">주차 관리 시스템</div>
 
-    <!-- 매장 정보 박스 -->
-    <div class="info-box">
-        <p class="mb-1">관리 매장: 하이미디어</p>
-        <p class="mb-0">현재 보유 쿠폰: <span th:text="${couponCount} + '개'">98개</span></p>
+    <div class="info-box border">
+        <p class="mb-1 text-muted small">관리 매장</p>
+        <h5 class="fw-bold mb-3">하이미디어</h5>
+        <p class="mb-0">현재 보유 쿠폰: <span class="fw-bold text-primary" th:text="${couponCount} + '개'">0개</span></p>
     </div>
 
-    <!-- [수정 포인트] 입력창과 버튼의 너비를 100%로 일치시키고 간격 부여 -->
+    <!-- 차량 검색 폼 -->
     <form th:action="@{/store/parking/search}" method="get">
-        <input type="text" name="carNo" class="form-control-custom" 
-               placeholder="출차 차량 번호를 입력하세요" th:value="${carNo}" required>
-        
+        <input type="text" name="carNo" class="form-control-custom shadow-sm" 
+               placeholder="차량 번호를 입력하세요" th:value="${carNo}" required>
         <button type="submit" class="btn btn-search shadow-sm">조회 및 요금계산</button>
     </form>
 
-    <!-- 하단 로그인 페이지 이동 링크 -->
+    <!-- [수정] 조회된 차량 목록 가운데 정렬 적용 -->
+    <div th:if="${carList != null}" class="mt-4">
+        <h6 class="fw-bold mb-4 text-secondary text-center">조회된 차량 목록</h6>
+        
+        <div th:each="car : ${carList}" class="car-item border shadow-sm">
+            <!-- 차량 정보 (수직 중앙 배치) -->
+            <div class="mb-2">
+                <div class="text-muted small mb-1">차량 번호</div>
+                <h4 class="fw-bold text-dark" th:text="${car.carNo}">735다5848</h4>
+            </div>
+            <div class="mb-3">
+                <div class="text-muted small mb-1">현재 주차 요금</div>
+                <h4 class="text-danger fw-bold" th:text="${#numbers.formatInteger(car.fee, 0, 'COMMA')} + '원'">5,000원</h4>
+            </div>
+            
+            <!-- 쿠폰 적용 버튼 -->
+            <form th:action="@{/store/coupon/use}" method="post" onsubmit="return confirm('쿠폰을 적용하시겠습니까?');">
+                <input type="hidden" name="carNo" th:value="${car.carNo}">
+                <button type="submit" class="btn-coupon shadow-sm" 
+                        th:disabled="${car.coupon > 0 || couponCount <= 0}">
+                    <span th:if="${car.coupon > 0}">할인 적용 완료</span>
+                    <span th:unless="${car.coupon > 0}">쿠폰 1장 적용하기</span>
+                </button>
+            </form>
+        </div>
+
+        <!-- 검색 결과가 없을 때 -->
+        <div th:if="${#lists.isEmpty(carList)}" class="text-center py-5">
+            <p class="text-muted mb-0">조회된 차량이 없습니다.</p>
+        </div>
+    </div>
+
     <div class="footer-link-box">
         <a href="/login" class="login-move-link">로그인 페이지 이동</a>
     </div>
-
-    <!-- 검색 결과 리스트 (생략 가능) -->
-    <div th:if="${carList != null}" class="mt-4">
-        <!-- carList 반복문... -->
-    </div>
 </div>
+
+<input type="hidden" id="msgSource" th:value="${message}">
+<script>
+    window.onload = function() {
+        var msg = document.getElementById("msgSource").value;
+        if (msg && msg !== 'null' && msg !== '') {
+            alert(msg);
+        }
+    };
+</script>
 
 </body>
 </html>
