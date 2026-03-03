@@ -39,61 +39,47 @@
 
     .title-icon { width: 30px; margin-right: 10px; vertical-align: middle; }
 </style>
-<!-- 상단 CSS 생략 (위의 스타일 포함) -->
+<!-- 상단 CSS 생략 -->
 <div class="container mt-5">
-    <div class="text-center mb-5">
-        <h2 class="fw-bold"><img src="car_icon.png" class="title-icon">주차 관리 시스템 <span class="text-muted" style="font-size: 0.8em;">(관리자)</span></h2>
+    <div class="text-center mb-4">
+        <h3 class="fw-bold">🔍 차량 검색 결과</h3>
+        <p class="text-muted">'<span th:text="${keyword}" class="text-primary fw-bold"></span>' 검색 결과 총 <span th:text="${#lists.size(searchList)}"></span>건</p>
     </div>
 
-    <!-- 검색창 (이미지의 입력창 스타일 적용) -->
-    <div class="card mb-4">
-        <div class="card-body p-4">
-            <form th:action="@{/admin/search}" method="post" class="row g-2">
-                <div class="col-md-2">
-                    <select name="field" class="form-select">
-                        <option value="carNo">차량번호</option>
-                        <option value="entryTime">입차시간</option>
-                    </select>
-                </div>
-                <div class="col-md-8">
-                    <input type="text" name="keyword" class="form-control" placeholder="조회할 차량 번호를 입력하세요">
-                </div>
-                <div class="col-md-2 d-grid">
-                    <button type="submit" class="btn btn-primary text-white">차량 조회</button>
-                </div>
-            </form>
+    <div class="card shadow-sm mb-4">
+        <div class="card-body text-center">
+            <a th:href="@{/admin}" class="btn btn-dark w-100" style="background-color: var(--main-blue); border:none; height:50px; line-height:35px; font-weight:bold;">
+                전체 리스트로 돌아가기
+            </a>
         </div>
     </div>
 
-    <!-- 테이블 리스트 -->
+    <!-- 결과 리스트 (admin.html과 동일한 테이블 스타일) -->
     <div class="card">
-        <div class="card-header">주차 전체 리스트</div>
         <div class="card-body p-0">
             <table class="table table-hover mb-0 text-center align-middle">
-                <thead>
+                <thead class="table-light">
                     <tr>
                         <th>순번</th>
                         <th>차량번호</th>
                         <th>입차시간</th>
-                        <th>출차시간</th>
                         <th>상태</th>
                         <th>관리</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="car, iter : ${carList}">
+                    <tr th:each="car, iter : ${searchList}">
                         <td th:text="${iter.count}">1</td>
-                        <td class="fw-bold" th:text="${car.carNo}">12가 3456</td>
+                        <td class="fw-bold text-primary" th:text="${car.carNo}">12가 3456</td>
                         <td th:text="${car.entryTime}">2026-03-03 10:00</td>
-                        <td th:text="${car.exitTime ?: '-'}">-</td>
                         <td>
                             <span th:if="${car.exitTime == null}" class="badge badge-success p-2">주차 중</span>
                             <span th:if="${car.exitTime != null}" class="badge badge-secondary p-2">출차 완료</span>
                         </td>
                         <td>
-                            <form th:action="@{/admin/delete}" method="post" onsubmit="return confirm('삭제하시겠습니까?');">
+                            <form th:action="@{/admin/delete}" method="post">
                                 <input type="hidden" name="carNo" th:value="${car.carNo}">
-                                <button type="submit" class="btn btn-danger btn-sm px-3">삭제</button>
+                                <button type="submit" class="btn btn-danger btn-sm">삭제</button>
                             </form>
                         </td>
                     </tr>

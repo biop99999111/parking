@@ -11,5 +11,28 @@
         FROM admin1
         WHERE adminId = #{adminId}
     </select>
+    
+ 
+
+<!-- [수정 후] Oracle 전용 기법 적용 -->
+<select id="searchCar" resultType="com.boot.json.model.Car">
+    SELECT * FROM car
+    <where>
+        <if test="field != null and field == 'carNo' and keyword != ''">
+            AND carNo LIKE '%' || #{keyword} || '%'
+        </if>
+        <if test="field != null and field == 'entryTime' and keyword != ''">
+            AND entryTime LIKE '%' || #{keyword} || '%'
+        </if>
+        <if test="field != null and field == 'exitTime' and keyword != ''">
+            AND exitTime LIKE '%' || #{keyword} || '%'
+        </if>
+    </where>
+    ORDER BY entryTime DESC
+</select>
+<delete id="deleteCar">
+    DELETE FROM car WHERE carNo = #{carNo}
+</delete>
+
 
 </mapper>
